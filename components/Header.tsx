@@ -4,9 +4,29 @@ import CartSheet from "./cart/CartSheet";
 import MenuSheet from "./MenuSheet";
 import Navbar from "./Navbar";
 import SearchInput from "./SearchInput";
+import { useCallback, useEffect } from "react";
+import { useDispatch, useSelector } from "react-redux";
+import { getProductCategories } from "@/app/services/productCategory";
 
 export default async function Header() {
-  const categories = await getCategories();
+  const dispatch = useDispatch();
+
+  // const categories = await getCategories();
+
+  const { productCategoryList, productCategoryLoading } = useSelector(
+    ({ productCategory }) => productCategory,
+  );
+
+  useEffect(() => {
+    dispatch(getProductCategories());
+  }, [dispatch]);
+
+  useEffect(() => {
+    const fetchCategories = async () => {};
+
+    fetchCategories();
+  }, []);
+
   return (
     <header className="sticky top-0 z-10 mx-auto w-full max-w-7xl border-b border-border/40 bg-background/95 px-2 py-4 backdrop-blur supports-[backdrop-filter]:bg-background/90 md:px-10">
       <nav className="flex flex-row items-center gap-6">
