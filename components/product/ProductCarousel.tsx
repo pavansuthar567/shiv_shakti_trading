@@ -7,7 +7,7 @@ import {
   CarouselPrevious,
 } from "@/components/ui/carousel";
 import { Product } from "@/lib/types";
-import { urlForImage } from "@/sanity/lib/image";
+// import { urlForImage } from "@/sanity/lib/image";
 import Autoplay from "embla-carousel-autoplay";
 import Image from "next/image";
 import { AspectRatio } from "../ui/aspect-ratio";
