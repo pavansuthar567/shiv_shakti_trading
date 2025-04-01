@@ -13,11 +13,12 @@ import {
 
 export default function ProductCard({ product }: { product: Product }) {
   return (
-    <Link href={`/product/${product.slug.current}`}>
+    <Link href={`/product/${product?.slug?.current || product?._id}`}>
       <Card className="flex h-full w-fit flex-col justify-around">
         <CardHeader className="flex items-center justify-center p-1">
           <Image
-            src={urlForImage(product.images)}
+            src={product?.image}
+            // src={urlForImage(product.images || product?.image)}
             width={220}
             height={220}
             alt={product.name}
@@ -30,7 +31,7 @@ export default function ProductCard({ product }: { product: Product }) {
             {product.name}
           </CardTitle>
           <CardDescription className="text-sm">
-            {product.category.name}
+            {product?.category?.name}
           </CardDescription>
         </CardContent>
         <CardFooter className="w-full p-2 pt-0">

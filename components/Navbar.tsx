@@ -30,7 +30,7 @@ export default function Navbar({ categories }: { categories: Category[] }) {
               {categories.map((category: Category, index: number) => (
                 <li key={index}>
                   <Link
-                    href={`/category/${category.slug.current}`}
+                    href={`/category/${category?.slug?.current || category?._id}`}
                     legacyBehavior
                     passHref
                   >

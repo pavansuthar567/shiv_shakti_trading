@@ -39,7 +39,9 @@ export default async function MenuSheet({
           </SheetClose>
           {categories.map((category: Category, index: number) => (
             <SheetClose asChild key={index}>
-              <Link href={`/category/${category.slug.current}`}>
+              <Link
+                href={`/category/${category?.slug?.current || category?._id}?categoryName=${category?.name}`}
+              >
                 <Button className="text-lg" variant="ghost">
                   {category.name}
                 </Button>

@@ -5,17 +5,24 @@ export const metadata: Metadata = {
 };
 
 export default function Contact() {
-  const companyName = "Aman Enterprises";
-  const ownerName = "Kuldeep Gupta";
+  // const companyName = "Aman Enterprises";
+  // const ownerName = "Kuldeep Gupta";
+  // const address =
+  // "G-211, UPSIDC Industrial Area Phase-1 M. G. Road, Dholana GHAZIABAD -201015, UP";
+  // const phoneNumber = "9868151526, 9811365888";
+  // const email = "info@oxabags.com";
+
+  const companyName = "Shiv Shakti Trading";
+  const ownerName = "Hiralal Suthar";
   const address =
-    "G-211, UPSIDC Industrial Area Phase-1 M. G. Road, Dholana GHAZIABAD -201015, UP";
-  const phoneNumber = "9868151526, 9811365888";
-  const email = "info@oxabags.com";
+    "266, Sun City Row House, Dindoli-Kharwasa Road, Near Raj Mahal Mall, Dindoli, Surat - 394210, GJ";
+  const phoneNumber = "9426862586, 9898032613";
+  const email = "pavan.suthar567@gmail.com";
 
   return (
     <section className="px-2 py-4">
       <h2 className="p-4 text-3xl font-medium">Contact Us</h2>
-      <div className="flex flex-row items-center space-x-8">
+      <div className="ml-5 flex flex-row items-center space-x-8">
         <div className="flex flex-col gap-8 text-base font-medium md:text-lg">
           <div className="flex flex-col gap-1">
             <p>Company Name:</p>

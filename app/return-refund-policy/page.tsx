@@ -5,10 +5,11 @@ export default function ReturnRefundPolicy() {
       <section>
         <h3 className="p-2 text-2xl">Handcrafted Products</h3>
         <p className="p-2">
-          At Aman Enterprise, we take pride in offering handcrafted products,
-          where slight differences in detailing may occur. These minor printing
-          and weaving irregularities contribute to the uniqueness and beauty of
-          each handcrafted bag and cannot be labeled as defects.
+          {/* At Aman Enterprise, we take pride in offering handcrafted products, */}
+          At Shiv Shakti Trading, we take pride in offering handcrafted
+          products, where slight differences in detailing may occur. These minor
+          printing and weaving irregularities contribute to the uniqueness and
+          beauty of each handcrafted bag and cannot be labeled as defects.
         </p>
       </section>
 

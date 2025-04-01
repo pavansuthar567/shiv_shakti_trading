@@ -3,11 +3,13 @@ import { persist } from "zustand/middleware";
 
 export type Product = {
   id: number;
+  _id: string;
   name: string;
   slug: {
     current: string;
   };
   price: number;
+  image: any;
   images: any;
   quantity: number;
 };

@@ -19,9 +19,13 @@ export default function CartProductCard({
   return (
     <Card className="mb-2 flex flex-row p-1">
       <CardContent className="flex w-full flex-row p-0">
-        <Link className="min-w-fit" href={`/product/${product.slug.current}`}>
+        <Link
+          className="min-w-fit"
+          href={`/product/${product?.slug?.current || product?._id}`}
+        >
           <Image
-            src={urlForImage(product.images[0])}
+            src={product.image}
+            // src={urlForImage(product.images[0])}
             width={100}
             height={100}
             alt={product.name}

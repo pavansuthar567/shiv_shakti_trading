@@ -2,11 +2,15 @@ import { z } from "zod";
 
 export type Product = {
   id: number;
+  productId: number;
+  _id: string;
   name: string;
   slug: {
     current: string;
   };
   images: any;
+  image: any;
+  brand: any;
   size: string;
   fabric: string;
   color: string;
@@ -22,6 +26,7 @@ export type Product = {
 };
 
 export type Category = {
+  _id: string;
   name: string;
   slug: {
     current: string;

@@ -8,9 +8,9 @@ export default function Footer() {
   return (
     <footer className="pb-10 md:px-5 md:pb-20">
       <section className="flex flex-row items-center justify-around text-pretty border-y py-10 text-center">
-        <div className="">
+        {/* <div className="">
           <span className="text-sm font-medium md:text-lg">Made in India</span>
-        </div>
+        </div> */}
         <div className="">
           <span className="text-sm font-medium md:text-lg">Free Shipping</span>
         </div>
@@ -70,19 +70,25 @@ export default function Footer() {
             <h2 className="mb-3 text-lg font-bold">Contact Us</h2>
             <div className="mb-3 flex gap-2 text-sm hover:underline">
               <MailIcon size={16} />
-              <Link href="mailto:info@oxabags.com">info@oxabags.com</Link>
+              <Link href="mailto:pavan.suthar567@gmail.com">
+                pavan.suthar567@gmail.com
+              </Link>
+              {/* <Link href="mailto:info@oxabags.com">info@oxabags.com</Link> */}
             </div>
             <div className="mb-3 flex gap-2 text-sm hover:underline">
               <PhoneCallIcon size={16} />
-              <Link href="tel:9868151526">9868151526</Link>
+              <Link href="tel:9426862586">9426862586</Link>
+              {/* <Link href="tel:9868151526">9868151526</Link> */}
             </div>
             <div className="mb-3 flex gap-2 text-sm hover:underline">
               <PhoneCallIcon size={16} />
-              <Link href="tel:9811365888">9811365888</Link>
+              <Link href="tel:9898032613">9898032613</Link>
+              {/* <Link href="tel:9811365888">9811365888</Link> */}
             </div>
             <div className="w-fit">
               <Link
-                href={"https://wa.me/9868151526"}
+                // href={"https://wa.me/9868151526"}
+                href={"https://wa.me/9426862586"}
                 target="_blank"
                 rel="noopener noreferrer"
               >
@@ -95,7 +101,7 @@ export default function Footer() {
                 />
               </Link>
             </div>
-            <div className="mt-2 flex space-x-4">
+            {/* <div className="mt-2 flex space-x-4">
               <Link
                 href="https://www.facebook.com/amanasia"
                 className="text-sm hover:underline"
@@ -114,24 +120,28 @@ export default function Footer() {
               >
                 Instagram
               </Link>
-            </div>
+            </div> */}
           </div>
           <div>
-            <h2 className="mb-3 text-xl font-bold">Aman Enterprises</h2>
+            {/* <h2 className="mb-3 text-xl font-bold">Aman Enterprises</h2> */}
+            <h2 className="mb-3 text-xl font-bold">Shiv Shakti Trading</h2>
             <a
               href="https://maps.app.goo.gl/diaZLM6SnYkpa6LV7"
               target="_blank"
               rel="noopener noreferrer"
               className="text-xs hover:underline md:text-sm"
             >
-              G-211, UPSIDC Industrial Area Phase-1 M. G. Road, Dholana
-              GHAZIABAD -201015, UP
+              {/* G-211, UPSIDC Industrial Area Phase-1 M. G. Road, Dholana
+              GHAZIABAD -201015, UP */}
+              266, Sun City Row House, Dindoli-Kharwasa Road, Near Raj Mahal
+              Mall, Dindoli, Surat - 394210, GJ
             </a>
           </div>
         </div>
       </section>
       <p className="mt-10 text-center text-sm">
-        © {new Date().getFullYear()} oxabags
+        {/* © {new Date().getFullYear()} oxabags */}©{" "}
+        {new Date().getFullYear()} ShivX
       </p>
     </footer>
   );

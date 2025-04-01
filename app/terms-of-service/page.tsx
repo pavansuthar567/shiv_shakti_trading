@@ -5,8 +5,9 @@ export default function TermsOfService() {
       <section>
         <h3 className="p-2 text-2xl">1. Acceptance of Terms</h3>
         <p className="p-2">
-          By accessing and using oxabags.com, you agree to comply with and be
-          bound by these Terms of Service.
+          {/* By accessing and using oxabags.com, you agree to comply with and be */}
+          By accessing and using shiv-shakti.netlify.app, you agree to comply
+          with and be bound by these Terms of Service.
         </p>
       </section>
 
@@ -23,7 +24,9 @@ export default function TermsOfService() {
         <h3 className="p-2 text-2xl">3. Intellectual Property Rights</h3>
         <p className="p-2">
           All content, trademarks, logos, and intellectual property displayed on
-          oxabags.com are the property of Aman Enterprise. You may not use,
+          shiv-shakti.netlify.app are the property of Shiv Shakti Trading. You
+          may not use,
+          {/* oxabags.com are the property of Aman Enterprise. You may not use, */}
           reproduce, or distribute any content from our website without prior
           written permission.
         </p>
@@ -33,11 +36,14 @@ export default function TermsOfService() {
         <h3 className="p-2 text-2xl">4. Payment Processing</h3>
         <p className="p-2">
           We utilize Razorpay, a third-party payment gateway, for processing
-          payments on our website. By making a purchase through oxabags.com, you
-          agree to abide by Razorpay&apos;s terms and conditions.
+          {/* payments on our website. By making a purchase through oxabags.com, you */}
+          payments on our website. By making a purchase through
+          shiv-shakti.netlify.app, you agree to abide by Razorpay&apos;s terms
+          and conditions.
         </p>
         <p className="p-2">
-          Aman Enterprise shall not be liable for any issues, disputes, or
+          {/* Aman Enterprise shall not be liable for any issues, disputes, or */}
+          Shiv Shakti Trading shall not be liable for any issues, disputes, or
           discrepancies arising from payment processing through Razorpay. Please
           refer to Razorpay&apos;s policies and procedures for more information.
         </p>
@@ -51,7 +57,8 @@ export default function TermsOfService() {
           reliability of any content.
         </p>
         <p className="p-2">
-          Aman Enterprise shall not be liable for any direct, indirect,
+          {/* Aman Enterprise shall not be liable for any direct, indirect, */}
+          Shiv Shakti Trading not be liable for any direct, indirect,
           incidental, special, or consequential damages arising out of or in any
           way connected with the use of our website or services.
         </p>

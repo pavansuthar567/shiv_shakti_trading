@@ -6,6 +6,10 @@ import { cn } from "@/lib/utils";
 import type { Metadata, Viewport } from "next";
 import { Inter } from "next/font/google";
 import "./globals.css";
+import axios from "axios";
+import { apiUrl } from "@/_helpers";
+
+axios.defaults.baseURL = apiUrl;
 
 const fontSans = Inter({ subsets: ["latin"], variable: "--font-sans" });
 
@@ -17,7 +21,8 @@ export const viewport: Viewport = {
 };
 
 export const metadata: Metadata = {
-  metadataBase: new URL("https://www.oxabags.com/"),
+  // metadataBase: new URL("https://www.oxabags.com/"),
+  metadataBase: new URL("https://shiv-shakti.netlify.app"),
   title: {
     template: "%s | oxabags",
     default: "oxabags",

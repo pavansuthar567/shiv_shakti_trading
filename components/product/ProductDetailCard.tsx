@@ -17,7 +17,11 @@ export default function ProductDetailCard({ product }: { product: Product }) {
           <TableBody>
             <TableRow>
               <TableCell className="text-nowrap">Product Code:</TableCell>
-              <TableCell>{product.id}</TableCell>
+              <TableCell>{product.productId}</TableCell>
+            </TableRow>
+            <TableRow>
+              <TableCell className="text-nowrap">Brand:</TableCell>
+              <TableCell>{product?.brand?.name}</TableCell>
             </TableRow>
             <TableRow>
               <TableCell>Size:</TableCell>
@@ -31,14 +35,14 @@ export default function ProductDetailCard({ product }: { product: Product }) {
               <TableCell>Color:</TableCell>
               <TableCell>{product.color}</TableCell>
             </TableRow>
-            <TableRow>
+            {/* <TableRow>
               <TableCell>Weight:</TableCell>
               <TableCell>{product.weight}</TableCell>
-            </TableRow>
-            <TableRow>
+            </TableRow> */}
+            {/* <TableRow>
               <TableCell>Features:</TableCell>
               <TableCell>{product.features}</TableCell>
-            </TableRow>
+            </TableRow> */}
             {product.description == null ? null : (
               <TableRow>
                 <TableCell>Description:</TableCell>
