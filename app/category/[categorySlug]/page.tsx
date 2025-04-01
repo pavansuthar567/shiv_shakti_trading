@@ -65,8 +65,8 @@ export default async function CategoryPage({ params }: Props) {
     console.log(
       "productList?.length",
       productList?.length,
-      "productList",
-      productList,
+      // "productList",
+      // productList,
     );
     products = [...products, ...(productList || [])];
   } catch (err) {
