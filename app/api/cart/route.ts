@@ -97,24 +97,24 @@ export const DELETE = async (request: NextRequest) => {
   }
 };
 
-export const CLEAR = async (request: NextRequest) => {
-  const userId = request.nextUrl.searchParams.get("userId"); // Assuming userId is passed as a query parameter
+// export const CLEAR = async (request: NextRequest) => {
+//   const userId = request.nextUrl.searchParams.get("userId"); // Assuming userId is passed as a query parameter
 
-  if (!userId) {
-    return NextResponse.json(
-      { message: "User ID is required" },
-      { status: 400 },
-    );
-  }
+//   if (!userId) {
+//     return NextResponse.json(
+//       { message: "User ID is required" },
+//       { status: 400 },
+//     );
+//   }
 
-  try {
-    await clearCart(userId);
-    return NextResponse.json({ message: "Cart cleared successfully" });
-  } catch (error) {
-    console.error("Error clearing cart:", error);
-    return NextResponse.json(
-      { message: "Error clearing cart" },
-      { status: 500 },
-    );
-  }
-};
+//   try {
+//     await clearCart(userId);
+//     return NextResponse.json({ message: "Cart cleared successfully" });
+//   } catch (error) {
+//     console.error("Error clearing cart:", error);
+//     return NextResponse.json(
+//       { message: "Error clearing cart" },
+//       { status: 500 },
+//     );
+//   }
+// };
