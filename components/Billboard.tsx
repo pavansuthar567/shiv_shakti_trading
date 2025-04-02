@@ -9,7 +9,8 @@ import Autoplay from "embla-carousel-autoplay";
 import Image from "next/image";
 import BuyInBulk from "../public/banner/buyinbulk.webp";
 import Customize from "../public/banner/customize.webp";
-import EcoFriendly from "../public/banner/Eco-Friendly.webp";
+// import EcoFriendly from "../public/banner/Eco-Friendly.webp";
+import EcoFriendly from "../public/banner/Eco-Friendly.png";
 import { AspectRatio } from "./ui/aspect-ratio";
 
 export default function Billboard() {

@@ -24,8 +24,8 @@ export const metadata: Metadata = {
   // metadataBase: new URL("https://www.oxabags.com/"),
   metadataBase: new URL("https://shiv-shakti.netlify.app"),
   title: {
-    template: "%s | oxabags",
-    default: "oxabags",
+    template: "%s | ShivX",
+    default: "ShivX",
   },
   description:
     "Manufacturer, Wholesaler & Exporter of Jute bags, Cotton Bag for Corporate Events & Exhibitions",
@@ -36,7 +36,8 @@ export const metadata: Metadata = {
   },
   category: "Shopping",
   openGraph: {
-    title: "oxabags",
+    // title: "oxabags",
+    title: "ShivX",
   },
 };
 
