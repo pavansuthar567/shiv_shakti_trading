@@ -7,10 +7,12 @@ import {
 } from "@/components/ui/carousel";
 import Autoplay from "embla-carousel-autoplay";
 import Image from "next/image";
-import BuyInBulk from "../public/banner/buyinbulk.webp";
-import Customize from "../public/banner/customize.webp";
+import BuyInBulk from "../public/banner/buyinbulk2.png";
+// import BuyInBulk from "../public/banner/buyinbulk.webp";
+// import Customize from "../public/banner/customize.webp";
 // import EcoFriendly from "../public/banner/Eco-Friendly.webp";
-import EcoFriendly from "../public/banner/Eco-Friendly.png";
+import EcoFriendly from "../public/banner/Eco-Friendly1.png";
+import Hankies from "../public/banner/Hankies2.png";
 import { AspectRatio } from "./ui/aspect-ratio";
 
 export default function Billboard() {
@@ -46,7 +48,7 @@ export default function Billboard() {
             <AspectRatio ratio={2 / 1}>
               <Image
                 className="w-full rounded-lg"
-                src={Customize}
+                src={Hankies}
                 alt="Customize your with your own design and preference."
                 width={1920}
                 height={960}
