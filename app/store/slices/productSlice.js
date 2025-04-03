@@ -1,17 +1,17 @@
-import { createSlice } from '@reduxjs/toolkit';
+import { createSlice } from "@reduxjs/toolkit";
 
 export const productInitDetails = {
-  productId: '',
-  name: '',
-  description: '',
+  productId: "",
+  name: "",
+  description: "",
   price: 0,
   category: null,
   brand: null,
   stock: 0,
-  image: '',
-  size: '',
-  color: '',
-  genderCategory: 'unisex',
+  images: [""],
+  size: "",
+  color: "",
+  genderCategory: "unisex",
 };
 
 const initialState = {
@@ -24,7 +24,7 @@ const initialState = {
 };
 
 const productSlice = createSlice({
-  name: 'product',
+  name: "product",
   initialState,
   reducers: {
     setProductList: (state, action) => {

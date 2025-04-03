@@ -2,6 +2,7 @@ import { Table, TableBody, TableCell, TableRow } from "@/components/ui/table";
 import { Product } from "@/lib/types";
 import AddToCartButton from "../cart/AddToCartButton";
 import ProductCarousel from "./ProductCarousel";
+import { fabricLabels } from "../../_helpers/constants";
 
 export default function ProductDetailCard({ product }: { product: Product }) {
   return (
@@ -29,7 +30,12 @@ export default function ProductDetailCard({ product }: { product: Product }) {
             </TableRow>
             <TableRow>
               <TableCell>Fabric:</TableCell>
-              <TableCell>{product.fabric}</TableCell>
+              <TableCell>
+                {product?.fabric
+                  ? fabricLabels[product.fabric as keyof typeof fabricLabels] ||
+                    product.fabric
+                  : ""}
+              </TableCell>
             </TableRow>
             <TableRow>
               <TableCell>Color:</TableCell>

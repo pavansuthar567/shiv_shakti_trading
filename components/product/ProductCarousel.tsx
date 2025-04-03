@@ -29,22 +29,24 @@ export default function ProductCarousel({ product }: { product: Product }) {
         ]}
       >
         <CarouselContent>
-          {[product.image].map((image: any, index: number) => (
-            // {[product.images].map((image: any, index: number) => (
-            <CarouselItem key={index}>
-              <AspectRatio ratio={1 / 1}>
-                <Image
-                  src={image}
-                  // src={urlForImage(image)}
-                  width={1000}
-                  height={1000}
-                  alt={product.name}
-                  className="rounded-lg"
-                  priority
-                />
-              </AspectRatio>
-            </CarouselItem>
-          ))}
+          {(product.image ? [product.image] : product.images).map(
+            (image: any, index: number) => (
+              // {[product.images].map((image: any, index: number) => (
+              <CarouselItem key={index}>
+                <AspectRatio ratio={1 / 1}>
+                  <Image
+                    src={image}
+                    // src={urlForImage(image)}
+                    width={1000}
+                    height={1000}
+                    alt={product.name}
+                    className="rounded-lg"
+                    priority
+                  />
+                </AspectRatio>
+              </CarouselItem>
+            ),
+          )}
         </CarouselContent>
         <CarouselPrevious className="left-0" />
         <CarouselNext className="right-0" />

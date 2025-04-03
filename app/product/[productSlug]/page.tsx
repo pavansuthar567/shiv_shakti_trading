@@ -91,7 +91,7 @@ const ProductPage = async ({ params }: Props) => {
     "@type": "Product",
     name: product?.name || "Product not found", // Fallback if product is null
     // image: urlForImage(product?.images[0]),
-    image: product?.image,
+    image: product?.images?.[0],
     description: product?.features || "No description available", // Fallback if product is null
     brand: {
       "@type": "Brand",
