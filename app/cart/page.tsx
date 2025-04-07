@@ -1,78 +1,106 @@
 "use client";
+import SignInSignUpModal from "@/components/auth/SignInSignUpModal";
 import CartOrderTable from "@/components/cart/CartOrderTable";
-import { Button } from "@/components/ui/button";
-import {
-  Form,
-  FormControl,
-  FormDescription,
-  FormField,
-  FormItem,
-  FormLabel,
-  FormMessage,
-} from "@/components/ui/form";
-import { Input } from "@/components/ui/input";
-import { checkoutFormSchema } from "@/lib/types";
+// import { Button } from "@/components/ui/button";
+// import {
+//   Form,
+//   FormControl,
+//   FormDescription,
+//   FormField,
+//   FormItem,
+//   FormLabel,
+//   FormMessage,
+// } from "@/components/ui/form";
+// import { Input } from "@/components/ui/input";
+// import { checkoutFormSchema } from "@/lib/types";
 import { useCartStore } from "@/store/useCartStore";
-import { zodResolver } from "@hookform/resolvers/zod";
-import { Loader2 } from "lucide-react";
-import { useRouter } from "next/navigation";
-import { useForm } from "react-hook-form";
-import * as z from "zod";
+// import { zodResolver } from "@hookform/resolvers/zod";
+// import { Loader2 } from "lucide-react";
+// import { useRouter } from "next/navigation";
+// import { useForm } from "react-hook-form";
+// import * as z from "zod";
 
-const formSchema = checkoutFormSchema;
+// const formSchema = checkoutFormSchema;
 
 export default function CartPage() {
-  const router = useRouter();
-  const { cart, totalItems, clearCart } = useCartStore();
-  const form = useForm<z.infer<typeof formSchema>>({
-    resolver: zodResolver(formSchema),
-    defaultValues: {
-      name: "",
-      email: "",
-      phoneNumber: "",
-      addressLine: "",
-      city: "",
-      state: "",
-      zipcode: "",
-      country: "India",
-    },
-  });
+  // const router = useRouter();
+  const { clearCart, cart } = useCartStore();
 
-  const onSubmit = async (values: z.infer<typeof formSchema>) => {
-    const cartProducts = cart.map((item) => ({
-      name: item.name,
-      price: item.price,
-      quantity: item.quantity,
-    }));
+  // const form = useForm<z.infer<typeof formSchema>>({
+  //   resolver: zodResolver(formSchema),
+  //   defaultValues: {
+  //     name: "",
+  //     email: "",
+  //     phoneNumber: "",
+  //     addressLine: "",
+  //     city: "",
+  //     state: "",
+  //     zipcode: "",
+  //     country: "India",
+  //   },
+  // });
 
-    const response: any = await fetch("/api/razorpay", {
-      method: "POST",
-      headers: {
-        "Content-Type": "application/json",
-      },
-      body: JSON.stringify({
-        ...values,
-        products: cartProducts,
-      }),
-    }).then((response) => response.json());
+  // const onSubmit = async (values: z.infer<typeof formSchema>) => {
+  //   const cartProducts = cart.map((item) => ({
+  //     name: item.name,
+  //     price: item.price,
+  //     quantity: item.quantity,
+  //   }));
 
-    if (response.status === "issued") {
-      clearCart();
-      router.push(
-        `/cart/success?name=${response.customer_details.name}&email=${response.customer_details.email}&phoneNumber=${response.customer_details.contact}&short_url=${response.short_url}`,
-      );
-    } else {
-      console.error("An error occurred please try again");
-    }
+  //   const response: any = await fetch("/api/razorpay", {
+  //     method: "POST",
+  //     headers: {
+  //       "Content-Type": "application/json",
+  //     },
+  //     body: JSON.stringify({
+  //       ...values,
+  //       products: cartProducts,
+  //     }),
+  //   }).then((response) => response.json());
 
-    form.reset();
+  //   if (response.status === "issued") {
+  //     clearCart();
+  //     router.push(
+  //       `/cart/success?name=${response.customer_details.name}&email=${response.customer_details.email}&phoneNumber=${response.customer_details.contact}&short_url=${response.short_url}`,
+  //     );
+  //   } else {
+  //     console.error("An error occurred please try again");
+  //   }
+
+  //   form.reset();
+  // };
+
+  const onPlaceOrder = () => {
+    console.log("onPlaceOrder");
+    const userDetails = JSON.parse(localStorage.getItem("userDetails") || "");
+    const { _id: userId } = userDetails?.user;
+
+    console.log("cart", cart);
+
+    const cartItems = cart?.map((x) => {
+      return {
+        product: x?._id,
+        quantity: x?.quantity,
+        amount: x?.price * x?.quantity,
+        price: x?.price,
+      };
+    });
+
+    const totalAmount = cartItems?.reduce((acc, x) => acc + x.amount, 0);
+
+    const order = {
+      user: userId,
+      items: cartItems,
+      totalAmount,
+    };
+    console.log("order", order);
   };
 
   return (
     <section className="p-2">
       <CartOrderTable />
       <div className="py-2">
-        <h1 className="p-2 text-2xl font-bold">Checkout</h1>
+        {/* <h1 className="p-2 text-2xl font-bold">Checkout</h1>
         <Form {...form}>
           <form
             onSubmit={form.handleSubmit(onSubmit)}
@@ -201,7 +229,8 @@ export default function CartPage() {
               )}
             </Button>
           </form>
-        </Form>
+        </Form> */}
+        <SignInSignUpModal isFromCart={true} onPlaceOrder={onPlaceOrder} />
       </div>
     </section>
   );

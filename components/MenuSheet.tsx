@@ -38,6 +38,13 @@ export default async function MenuSheet({
               </Button>
             </Link>
           </SheetClose>
+          <SheetClose asChild>
+            <Link href="/order">
+              <Button className="text-lg" variant="ghost">
+                Orders
+              </Button>
+            </Link>
+          </SheetClose>
           {categories.map((category: Category, index: number) => (
             <SheetClose asChild key={index}>
               <Link
