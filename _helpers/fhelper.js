@@ -11,6 +11,19 @@ const getCurrentUser = () => {
   return currentUser;
 };
 
+const isUserLoggedIn = () => {
+  const isLoggedIn = localStorage.getItem("isLoggedIn");
+  if (isLoggedIn === "true") return true;
+  else if (isLoggedIn === "false") return false;
+  return null;
+};
+
+const getUserDetails = () => {
+  const currentUserJson = localStorage.getItem("userDetails");
+  const currentUser = JSON.parse(currentUserJson);
+  return currentUser;
+};
+
 const getVariationsArray = (variaionsOfArray, customizations) => {
   return variaionsOfArray.map((variItem) => {
     return {
@@ -396,6 +409,8 @@ function getHeadersFromObjects(objects, includeKeys = []) {
 
 export const fhelper = {
   getCurrentUser,
+  isUserLoggedIn,
+  getUserDetails,
   getVariationsArray,
   getRandomValue,
   getStatusBg,

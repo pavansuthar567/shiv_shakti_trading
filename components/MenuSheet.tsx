@@ -11,6 +11,7 @@ import { MenuIcon } from "lucide-react";
 import Link from "next/link";
 import SearchInput from "./SearchInput";
 import { Button } from "./ui/button";
+import SignInSignUpModal from "./auth/SignInSignUpModal";
 
 export default async function MenuSheet({
   categories,
@@ -49,6 +50,11 @@ export default async function MenuSheet({
             </SheetClose>
           ))}
           <SearchInput />
+          <SheetClose asChild>
+            <Link href="#">
+              <SignInSignUpModal isFromMenuSheet={true} />
+            </Link>
+          </SheetClose>
         </div>
       </SheetContent>
     </Sheet>

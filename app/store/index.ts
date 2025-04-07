@@ -8,9 +8,11 @@ import order from "./slices/orderSlice";
 import cart from "./slices/cartSlice";
 import home from "./slices/homeSlice";
 import common from "./slices/commonSlice";
+import auth from "./slices/authSlice";
 // ----------------------------------------------------------------------
 
 const reducers = combineReducers({
+  auth,
   user,
   brand,
   productCategory,
@@ -32,5 +34,6 @@ const store = configureStore({
 });
 
 export type AppDispatch = typeof store.dispatch;
+export type RootState = ReturnType<typeof store.getState>;
 
 export default store;

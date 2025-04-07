@@ -8,6 +8,7 @@ import { Inter } from "next/font/google";
 import "./globals.css";
 import axios from "axios";
 import { apiUrl } from "@/_helpers";
+import SignInSignUpModal from "@/components/auth/SignInSignUpModal";
 
 axios.defaults.baseURL = apiUrl;
 
@@ -61,6 +62,7 @@ export default function RootLayout({
         </main>
         <FloatingBar />
         <Toaster />
+        <SignInSignUpModal />
       </body>
     </html>
   );
