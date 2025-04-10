@@ -24,7 +24,7 @@ export default function CartProductCard({
           href={`/product/${product?.slug?.current || product?._id}`}
         >
           <Image
-            src={product.images?.[0]}
+            src={product?.images?.[0] || product?.image}
             // src={urlForImage(product.images[0])}
             width={100}
             height={100}

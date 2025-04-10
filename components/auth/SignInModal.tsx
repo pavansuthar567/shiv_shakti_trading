@@ -17,6 +17,7 @@ import { zodResolver } from "@hookform/resolvers/zod";
 import * as z from "zod";
 import { useToast } from "../ui/use-toast";
 import { useAuthStore } from "@/store/useAuthStore";
+import axios from "axios";
 
 const SignInSchema = z.object({
   email: z.string().trim().email("Invalid email address"),
@@ -32,7 +33,7 @@ const SignInSchema = z.object({
 
 const SignInModal = () => {
   const { toast } = useToast();
-  const { isSignIn, setIsSignIn, setIsSignUp } = useAuthStore();
+  const { isSignIn, setIsSignIn, setIsSignUp, setIsSignedIn } = useAuthStore();
 
   const form = useForm<z.infer<typeof SignInSchema>>({
     resolver: zodResolver(SignInSchema),
@@ -65,6 +66,9 @@ const SignInModal = () => {
       if (!response.ok) {
         throw new Error(res.error || res.message || "Signin failed");
       }
+
+      const token = res?.data?.data?.token;
+      axios.defaults.headers.common["Authorization"] = `Bearer ${token}`;
 
       localStorage.setItem("isLoggedIn", JSON.stringify(true));
       localStorage.setItem("userDetails", JSON.stringify(res?.data?.data));

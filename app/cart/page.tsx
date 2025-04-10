@@ -1,6 +1,7 @@
 "use client";
 import SignInSignUpModal from "@/components/auth/SignInSignUpModal";
 import CartOrderTable from "@/components/cart/CartOrderTable";
+import { useToast } from "@/components/ui/use-toast";
 // import { Button } from "@/components/ui/button";
 // import {
 //   Form,
@@ -16,14 +17,15 @@ import CartOrderTable from "@/components/cart/CartOrderTable";
 import { useCartStore } from "@/store/useCartStore";
 // import { zodResolver } from "@hookform/resolvers/zod";
 // import { Loader2 } from "lucide-react";
-// import { useRouter } from "next/navigation";
+import { useRouter } from "next/navigation";
 // import { useForm } from "react-hook-form";
 // import * as z from "zod";
 
 // const formSchema = checkoutFormSchema;
 
 export default function CartPage() {
-  // const router = useRouter();
+  const router = useRouter();
+  const { toast } = useToast();
   const { clearCart, cart } = useCartStore();
 
   // const form = useForm<z.infer<typeof formSchema>>({
@@ -70,7 +72,7 @@ export default function CartPage() {
   //   form.reset();
   // };
 
-  const onPlaceOrder = () => {
+  const onPlaceOrder = async () => {
     console.log("onPlaceOrder");
     const userDetails = JSON.parse(localStorage.getItem("userDetails") || "");
     const { _id: userId } = userDetails?.user;
@@ -94,6 +96,36 @@ export default function CartPage() {
       totalAmount,
     };
     console.log("order", order);
+
+    try {
+      const response = await fetch(
+        `${process.env.NEXT_PUBLIC_BASE_URL}/api/orders`,
+        {
+          method: "POST",
+          headers: { "Content-Type": "application/json" },
+          body: JSON.stringify(order),
+        },
+      );
+
+      const res = await response.json();
+
+      if (!response.ok) {
+        throw new Error(
+          res.error ||
+            res.message ||
+            "Failed to place order. Please try again.",
+        );
+      }
+
+      toast({ title: res.message || "Order placed successfully" });
+      clearCart();
+      router.push(`/order`);
+    } catch (err) {
+      const error =
+        err instanceof Error ? err.message : "An unknown error occurred";
+      toast({ variant: "destructive", title: error });
+      console.error("Error signing in:", error);
+    }
   };
 
   return (

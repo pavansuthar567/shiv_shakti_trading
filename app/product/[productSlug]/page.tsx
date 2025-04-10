@@ -3,7 +3,7 @@ import ProductsMarqueeWrapper from "@/components/product/ProductsMarqueeWrapper"
 import { Product } from "@/lib/types";
 // import { urlForImage } from "@/sanity/lib/image";
 // import { getProductBySlug, getProductsSlug } from "@/sanity/lib/sanity.query";
-import type { Metadata } from "next";
+// import type { Metadata } from "next";
 
 export const dynamicParams = false;
 
@@ -11,11 +11,11 @@ type Props = {
   params: { productSlug: string };
 };
 
-type ProductSlug = {
-  slug: {
-    current: string;
-  };
-};
+// type ProductSlug = {
+//   slug: {
+//     current: string;
+//   };
+// };
 
 // export async function generateStaticParams() {
 //   const productSlugs = await getProductsSlug();
@@ -66,6 +66,7 @@ const ProductPage = async ({ params }: Props) => {
   // let product: Product = await getProductBySlug(productSlug);
 
   let product: Product | null = null; // Initialize product as null
+  let error: string | null = null;
 
   try {
     const response = await fetch(
@@ -80,7 +81,8 @@ const ProductPage = async ({ params }: Props) => {
     const productItem = await response.json();
     product = product || productItem;
     // const product: Product = await getProductBySlug(productSlug);
-  } catch (error) {
+  } catch (err) {
+    error = err instanceof Error ? err.message : "An unknown error occurred";
     console.error("Error fetching product:", error);
     // Handle error appropriately, e.g., set product to null or show a message
   }

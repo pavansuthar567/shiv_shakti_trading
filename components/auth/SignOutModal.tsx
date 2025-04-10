@@ -5,11 +5,16 @@ import { X } from "lucide-react";
 import { Button } from "@/components/ui/button";
 import { useToast } from "@/components/ui/use-toast";
 import { useAuthStore } from "@/store/useAuthStore";
+import { useCartStore } from "@/store/useCartStore";
+import { useOrderStore } from "@/store/useOrderStore";
 
 const SignOutModal = () => {
   const { toast } = useToast();
 
-  const { isSignOut, setIsSignOut, setIsSignIn, setIsSignUp } = useAuthStore();
+  // const { clearCart } = useCartStore();
+  const { setOrders } = useOrderStore();
+  const { isSignOut, setIsSignOut, setIsSignIn, setIsSignUp, setIsSignedIn } =
+    useAuthStore();
 
   const handleConfirm = () => {
     localStorage.setItem("isLoggedIn", "false");
@@ -17,6 +22,9 @@ const SignOutModal = () => {
     setIsSignOut(false);
     setIsSignIn(false);
     setIsSignUp(false);
+    setIsSignedIn(false);
+    // clearCart();
+    setOrders([]);
     toast({ title: "Signed out successfully" });
   };
 

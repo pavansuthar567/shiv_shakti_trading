@@ -65,3 +65,22 @@ export const invoiceSchema = checkoutFormSchema.extend({
     }),
   ),
 });
+
+export type OrderItem = {
+  product: string;
+  quantity: number;
+  amount: number;
+  price: number;
+  _id: string;
+};
+
+export type Order = {
+  orderId: number;
+  user: string;
+  items: OrderItem[];
+  totalAmount: number;
+  status: string;
+  _id: string;
+  createdAt: string;
+  updatedAt: string;
+};

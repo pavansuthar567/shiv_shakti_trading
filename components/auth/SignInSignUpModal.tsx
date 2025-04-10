@@ -3,39 +3,46 @@
 import { Button } from "@/components/ui/button";
 import SignInModal from "./SignInModal";
 import SignUpModal from "./SignUpModal";
-import { fhelper } from "@/_helpers";
+// import { fhelper } from "@/_helpers";
 import { useAuthStore } from "@/store/useAuthStore";
 import { useCartStore } from "@/store/useCartStore";
-import { useEffect, useState } from "react";
+import { useEffect } from "react";
 import SignOutModal from "./SignOutModal";
 
 interface SignInModalProps {
   isFromMenuSheet?: boolean;
   isFromCart?: boolean;
+  isFromOrder?: boolean;
   onPlaceOrder?: () => void;
 }
 
 const SignInSignUpModal: React.FC<SignInModalProps> = ({
   isFromMenuSheet,
   isFromCart,
+  isFromOrder,
   onPlaceOrder,
 }) => {
-  const [isLoggedIn, setIsLoggedIn] = useState<boolean | null>(false);
+  // const [isLoggedIn, setIsLoggedIn] = useState<boolean | null>(false);
 
   const { totalItems } = useCartStore();
   const {
     isSignIn,
     isSignUp,
     isSignOut,
+    isSignedIn: isLoggedIn,
     setIsSignIn,
     setIsSignUp,
     setIsSignOut,
   } = useAuthStore();
 
-  useEffect(() => {
-    const isUserLoggedIn = fhelper.isUserLoggedIn();
-    setIsLoggedIn(isUserLoggedIn);
-  }, [isSignIn, isSignUp, isSignOut]);
+  console.log("isLoggedIn", isLoggedIn);
+
+  useEffect(() => {}, [isLoggedIn]);
+
+  // useEffect(() => {
+  //   const isUserLoggedIn = fhelper.isUserLoggedIn();
+  //   setIsLoggedIn(isUserLoggedIn);
+  // }, [isSignIn, isSignUp, isSignOut]);
 
   const onSignUpClick = () => {
     setIsSignIn(false);
@@ -63,6 +70,8 @@ const SignInSignUpModal: React.FC<SignInModalProps> = ({
     }
   };
 
+  console.log("isSignIn", isSignIn);
+
   return (
     <div className="ml-4 pt-3 text-sm">
       {isFromMenuSheet && (
@@ -73,7 +82,7 @@ const SignInSignUpModal: React.FC<SignInModalProps> = ({
           {isLoggedIn === null && (
             <Button onClick={onSignUpClick}>Sign Up</Button>
           )}
-          {isLoggedIn === true && (
+          {isLoggedIn === true && !isFromOrder && (
             <Button onClick={onSignOutClick}>Sign Out</Button>
           )}
         </>

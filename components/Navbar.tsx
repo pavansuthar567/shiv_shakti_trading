@@ -46,7 +46,7 @@ export default function Navbar({ categories }: { categories: Category[] }) {
           </NavigationMenuContent>
         </NavigationMenuItem>
         <NavigationMenuItem>
-          <Link href="/about" passHref legacyBehavior>
+          <Link href="/order" passHref legacyBehavior>
             <NavigationMenuLink className={navigationMenuTriggerStyle()}>
               Orders
             </NavigationMenuLink>

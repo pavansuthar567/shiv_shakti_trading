@@ -1,9 +1,12 @@
-import { apiUrl } from "@/_helpers";
+// import { apiUrl } from "@/_helpers";
 import axios from "axios";
+
+const apiUrl = "http://localhost:8081/api/";
 
 export const createOrder = async (orderData) => {
   try {
-    const res = await axios.post(`${apiUrl}orders`, orderData);
+    const res = await axios.post(`${apiUrl}order`, orderData);
+    console.log("res?.data", res?.data);
     if (res?.data?.status === "error") {
       throw new Error(res.data.message);
     }
@@ -16,7 +19,16 @@ export const createOrder = async (orderData) => {
 
 export const getOrders = async () => {
   try {
-    const res = await axios.get(`${apiUrl}orders`);
+    console.log(
+      "apiUrl",
+      apiUrl,
+      "process.env.REACT_APP_API_URL",
+      process.env.REACT_APP_API_URL,
+    );
+    const res = await axios.get(`${apiUrl}order`, {
+      params: { isFromSite: true },
+    });
+    console.log("res?.data", res?.data);
     if (res?.data?.status === "error") {
       throw new Error(res.data.message);
     }
@@ -29,7 +41,7 @@ export const getOrders = async () => {
 
 export const getOrderById = async (id) => {
   try {
-    const res = await axios.get(`${apiUrl}orders/${id}`);
+    const res = await axios.get(`${apiUrl}order/${id}`);
     if (res?.data?.status === "error") {
       throw new Error(res.data.message);
     }
@@ -42,7 +54,7 @@ export const getOrderById = async (id) => {
 
 export const updateOrder = async (id, data) => {
   try {
-    const res = await axios.put(`${apiUrl}orders/${id}`, data);
+    const res = await axios.put(`${apiUrl}order/${id}`, data);
     if (res?.data?.status === "error") {
       throw new Error(res.data.message);
     }
@@ -55,7 +67,7 @@ export const updateOrder = async (id, data) => {
 
 export const deleteOrder = async (id) => {
   try {
-    const res = await axios.delete(`${apiUrl}orders/${id}`);
+    const res = await axios.delete(`${apiUrl}order/${id}`);
     if (res?.data?.status === "error") {
       throw new Error(res.data.message);
     }
