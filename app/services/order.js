@@ -1,7 +1,10 @@
 // import { apiUrl } from "@/_helpers";
 import axios from "axios";
 
-const apiUrl = "http://localhost:8081/api/";
+const apiUrl =
+  process.env.NODE_ENV === "development"
+    ? "http://localhost:8081/api/"
+    : "https://shiv-shakti-trading.vercel.APP/api/";
 
 export const createOrder = async (orderData) => {
   try {

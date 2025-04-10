@@ -225,8 +225,13 @@ const removeLastSegment = (url) => {
 const isValidKeyName = (arrayOfObjects, keyName) =>
   arrayOfObjects.every((object) => object.hasOwnProperty(keyName));
 
-const sortByField = (array, key = "createdDate") => {
-  return array.sort((a, b) => b[key] - a[key]);
+const sortByField = (array, key = "createdDate", direction = 1) => {
+  if (![1, -1].includes(direction)) return array;
+  return array.sort((a, b) => {
+    if (a[key] < b[key]) return -1 * direction;
+    if (a[key] > b[key]) return 1 * direction;
+    return 0;
+  });
 };
 
 // const getAllPagesList = () => {

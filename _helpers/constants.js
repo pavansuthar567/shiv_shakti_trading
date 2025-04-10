@@ -167,3 +167,17 @@ export const fabricLabels = {
   wool: "Wool",
   "swiss cotton": "Swiss Cotton",
 };
+
+export const statusColors = {
+  pending: "text-yellow-600",
+  processing: "text-blue-600",
+  delivered: "text-green-600",
+  cancelled: "text-red-600",
+};
+
+export const statuses = {
+  pending: "Pending",
+  processing: "Processing",
+  delivered: "Delivered",
+  cancelled: "Cancelled",
+};

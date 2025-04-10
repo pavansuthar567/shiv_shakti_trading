@@ -29,7 +29,7 @@ export default function ProductCarousel({ product }: { product: Product }) {
         ]}
       >
         <CarouselContent>
-          {(product.image ? [product.image] : product.images).map(
+          {(product.image ? [product.image] : product.images || [])?.map(
             (image: any, index: number) => (
               // {[product.images].map((image: any, index: number) => (
               <CarouselItem key={index}>

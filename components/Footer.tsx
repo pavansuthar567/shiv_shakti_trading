@@ -14,7 +14,7 @@ export default function Footer() {
         <div className="">
           <span className="text-sm font-medium md:text-lg">Free Shipping</span>
         </div>
-        <div className="flex flex-col items-center justify-center">
+        {/* <div className="flex flex-col items-center justify-center">
           <span className="text-sm font-medium md:text-lg">Payments via</span>
           <Image
             loading="lazy"
@@ -23,7 +23,7 @@ export default function Footer() {
             src={razorpay}
             alt="razorpay"
           />
-        </div>
+        </div> */}
       </section>
       <section className="container mx-auto pt-10">
         <div className="grid grid-cols-1 gap-8 md:grid-cols-3">

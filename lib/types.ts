@@ -67,7 +67,7 @@ export const invoiceSchema = checkoutFormSchema.extend({
 });
 
 export type OrderItem = {
-  product: string;
+  product: Product;
   quantity: number;
   amount: number;
   price: number;
@@ -84,3 +84,5 @@ export type Order = {
   createdAt: string;
   updatedAt: string;
 };
+
+export type StatusType = "pending" | "processing" | "delivered" | "cancelled";
