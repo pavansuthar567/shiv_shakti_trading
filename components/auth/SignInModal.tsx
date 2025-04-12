@@ -76,6 +76,7 @@ const SignInModal = () => {
       toast({ title: res.message || "Signin successful" });
       form.reset();
       setIsSignIn(false);
+      setIsSignedIn(true);
     } catch (err) {
       const error =
         err instanceof Error ? err.message : "An unknown error occurred";

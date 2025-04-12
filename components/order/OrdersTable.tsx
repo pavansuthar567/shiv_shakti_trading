@@ -16,6 +16,7 @@ import { useOrderStore } from "@/store/useOrderStore";
 import { getOrders } from "@/app/services/order";
 import { useAuthStore } from "@/store/useAuthStore";
 import { fhelper } from "@/_helpers";
+import { statusColors } from "@/_helpers/constants";
 
 export default function OrdersTable() {
   const { toast } = useToast();
@@ -28,10 +29,13 @@ export default function OrdersTable() {
     try {
       setLoading(true);
       const response = await getOrders(); // Fetch by userId internally
-      const orders = response?.data || {};
-      const sorted = fhelper.sortByField(orders, "updatedAt", -1) || [];
 
-      setOrders(sorted);
+      if (response?.error) {
+        throw new Error(response?.error);
+      }
+
+      const orders = response || [];
+      setOrders(orders);
     } catch (err) {
       const error =
         err instanceof Error ? err.message : "An unknown error occurred";
@@ -67,7 +71,11 @@ export default function OrdersTable() {
                 <TableCell>
                   {new Date(order.createdAt).toLocaleDateString()}
                 </TableCell>
-                <TableCell>{order.status}</TableCell>
+                <TableCell
+                  className={`${statusColors[order.status]} font-semibold`}
+                >
+                  {order.status}
+                </TableCell>
                 <TableCell>₹{order.totalAmount}</TableCell>
                 <TableCell className="text-right">
                   <Link

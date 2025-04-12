@@ -1,4 +1,5 @@
 // import { apiUrl } from "@/_helpers";
+import { fhelper } from "@/_helpers";
 import axios from "axios";
 
 const apiUrl =
@@ -9,7 +10,6 @@ const apiUrl =
 export const createOrder = async (orderData) => {
   try {
     const res = await axios.post(`${apiUrl}order`, orderData);
-    console.log("res?.data", res?.data);
     if (res?.data?.status === "error") {
       throw new Error(res.data.message);
     }
@@ -22,20 +22,16 @@ export const createOrder = async (orderData) => {
 
 export const getOrders = async () => {
   try {
-    console.log(
-      "apiUrl",
-      apiUrl,
-      "process.env.REACT_APP_API_URL",
-      process.env.REACT_APP_API_URL,
-    );
     const res = await axios.get(`${apiUrl}order`, {
       params: { isFromSite: true },
     });
-    console.log("res?.data", res?.data);
     if (res?.data?.status === "error") {
       throw new Error(res.data.message);
     }
-    return res.data;
+    const orders = res?.data?.data || {};
+    const sorted = fhelper.sortByField(orders, "updatedAt", -1) || [];
+
+    return sorted;
   } catch (e) {
     const error = e?.response?.data?.message || e?.message;
     return { error, status: e?.response?.status || 500 };

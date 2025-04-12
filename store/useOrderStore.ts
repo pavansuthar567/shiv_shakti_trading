@@ -1,31 +1,13 @@
+import { Order, OrderItem } from "@/lib/types";
 import { create } from "zustand";
 
-type OrderItem = {
-  product: string;
-  quantity: number;
-  amount: number;
-  price: number;
-  _id: string;
-};
-
-type Order = {
-  orderId: number;
-  user: string;
-  items: OrderItem[];
-  totalAmount: number;
-  status: string;
-  _id: string;
-  createdAt: string;
-  updatedAt: string;
-};
-
-type OrderState = {
+export type OrderState = {
   orders: Order[];
   selectedOrder: Order | null;
   loading: boolean;
 };
 
-type OrderActions = {
+export type OrderActions = {
   setOrders: (orders: Order[]) => void;
   setSelectedOrder: (order: Order | null) => void;
   setLoading: (value: boolean) => void;

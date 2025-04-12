@@ -42,7 +42,7 @@ export default function OrderDetailPage({ params }: Props) {
 
   return (
     <section className="p-2">
-      <OrderDetails />
+      <OrderDetails loadData={loadData} />
       <div className="py-2"></div>
     </section>
   );
