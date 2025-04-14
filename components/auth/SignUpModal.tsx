@@ -85,6 +85,7 @@ const SignUpModal = () => {
 
       toast({ title: res.message || "Signup successful" });
       form.reset();
+      onSignInClick();
     } catch (err) {
       const error =
         err instanceof Error ? err.message : "An unknown error occurred";

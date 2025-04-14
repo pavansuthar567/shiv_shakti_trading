@@ -7,9 +7,11 @@ const apiUrl =
     ? "http://localhost:8081/api/"
     : "https://shiv-shakti-trading.vercel.APP/api/";
 
-export const createOrder = async (orderData) => {
+export const createOrder = async (orderData, token) => {
   try {
-    const res = await axios.post(`${apiUrl}order`, orderData);
+    const res = await axios.post(`${apiUrl}order`, orderData, {
+      headers: { Authorization: `Bearer ${token}` },
+    });
     if (res?.data?.status === "error") {
       throw new Error(res.data.message);
     }

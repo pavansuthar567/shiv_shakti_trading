@@ -4,7 +4,6 @@ import { createOrder, getOrders } from "@/app/services/order";
 export const GET = async (_: NextRequest) => {
   try {
     const orders = await getOrders(); // Fetch by userId internally
-    console.log("orders", orders);
 
     if (orders?.error) {
       return NextResponse.json(
@@ -25,8 +24,16 @@ export const GET = async (_: NextRequest) => {
 
 export const POST = async (req: NextRequest) => {
   try {
+    // Get the cookies from the request
+    const cookies = req.cookies;
+    const token = cookies.get("token"); // Get the token from the cookies
+
+    if (!token?.value) {
+      return NextResponse.json({ error: "Token not found" }, { status: 401 });
+    }
+
     const body = await req.json();
-    const created = await createOrder(body);
+    const created = await createOrder(body, token?.value);
 
     if (created?.error) {
       return NextResponse.json(

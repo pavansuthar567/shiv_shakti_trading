@@ -1,7 +1,9 @@
 "use client";
+import { fhelper } from "@/_helpers";
 import SignInSignUpModal from "@/components/auth/SignInSignUpModal";
 import CartOrderTable from "@/components/cart/CartOrderTable";
 import { useToast } from "@/components/ui/use-toast";
+import { useAuthStore } from "@/store/useAuthStore";
 // import { Button } from "@/components/ui/button";
 // import {
 //   Form,
@@ -15,6 +17,7 @@ import { useToast } from "@/components/ui/use-toast";
 // import { Input } from "@/components/ui/input";
 // import { checkoutFormSchema } from "@/lib/types";
 import { useCartStore } from "@/store/useCartStore";
+import { useOrderStore } from "@/store/useOrderStore";
 // import { zodResolver } from "@hookform/resolvers/zod";
 // import { Loader2 } from "lucide-react";
 import { useRouter } from "next/navigation";
@@ -26,7 +29,11 @@ import { useRouter } from "next/navigation";
 export default function CartPage() {
   const router = useRouter();
   const { toast } = useToast();
+
   const { clearCart, cart } = useCartStore();
+  const { setOrders } = useOrderStore();
+  const { setIsSignedIn, setIsSignOut, setIsSignIn, setIsSignUp } =
+    useAuthStore();
 
   // const form = useForm<z.infer<typeof formSchema>>({
   //   resolver: zodResolver(formSchema),
@@ -73,11 +80,8 @@ export default function CartPage() {
   // };
 
   const onPlaceOrder = async () => {
-    console.log("onPlaceOrder");
     const userDetails = JSON.parse(localStorage.getItem("userDetails") || "");
     const { _id: userId } = userDetails?.user;
-
-    console.log("cart", cart);
 
     const cartItems = cart?.map((x) => {
       return {
@@ -95,18 +99,33 @@ export default function CartPage() {
       items: cartItems,
       totalAmount,
     };
-    console.log("order", order);
 
     try {
+      const token = fhelper.getToken();
+
       const response = await fetch(
         `${process.env.NEXT_PUBLIC_BASE_URL}/api/orders`,
         {
           method: "POST",
-          headers: { "Content-Type": "application/json" },
+          headers: {
+            "Content-Type": "application/json",
+            Authorization: `Bearer ${token}`,
+          },
           body: JSON.stringify(order),
         },
       );
 
+      if (response?.status === 401) {
+        localStorage.setItem("isLoggedIn", "false");
+        localStorage.removeItem("userDetails");
+        setIsSignOut(false);
+        setIsSignIn(false);
+        setIsSignUp(false);
+        setIsSignedIn(false);
+        // clearCart();
+        setOrders([]);
+        // toast({ title: "Signed out successfully" });
+      }
       const res = await response.json();
 
       if (!response.ok) {

@@ -19,9 +19,19 @@ const isUserLoggedIn = () => {
 };
 
 const getUserDetails = () => {
+  if (typeof window === "undefined") return null; // Ensure it's only accessed in the browser
+
   const currentUserJson = localStorage.getItem("userDetails");
+  if (!currentUserJson) return null;
+
   const currentUser = JSON.parse(currentUserJson);
   return currentUser;
+};
+
+const getToken = () => {
+  const user = getUserDetails();
+  if (user?.token) return user?.token;
+  return null;
 };
 
 const getVariationsArray = (variaionsOfArray, customizations) => {
@@ -416,6 +426,7 @@ export const fhelper = {
   getCurrentUser,
   isUserLoggedIn,
   getUserDetails,
+  getToken,
   getVariationsArray,
   getRandomValue,
   getStatusBg,
