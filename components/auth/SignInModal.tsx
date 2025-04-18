@@ -67,12 +67,15 @@ const SignInModal = () => {
         throw new Error(res.error || res.message || "Signin failed");
       }
 
-      const token = res?.data?.data?.token;
+      const resData = res?.data?.data || {};
+      const { token, user } = resData;
+
       axios.defaults.headers.common["Authorization"] = `Bearer ${token}`;
       document.cookie = `token=${token}; path=/; max-age=86400`;
+      document.cookie = `username=${user?.name}; path=/; max-age=86400`;
 
       localStorage.setItem("isLoggedIn", JSON.stringify(true));
-      localStorage.setItem("userDetails", JSON.stringify(res?.data?.data));
+      localStorage.setItem("userDetails", JSON.stringify(resData));
 
       toast({ title: res.message || "Signin successful" });
       form.reset();

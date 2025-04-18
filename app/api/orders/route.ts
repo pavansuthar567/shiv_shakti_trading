@@ -29,7 +29,10 @@ export const POST = async (req: NextRequest) => {
     const token = cookies.get("token"); // Get the token from the cookies
 
     if (!token?.value) {
-      return NextResponse.json({ error: "Token not found" }, { status: 401 });
+      return NextResponse.json(
+        { error: "Token expired. Please sign in again." },
+        { status: 401 },
+      );
     }
 
     const body = await req.json();
