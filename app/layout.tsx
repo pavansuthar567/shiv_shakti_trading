@@ -1,14 +1,15 @@
+import { apiUrl } from "@/_helpers";
+import AIChatWidget from "@/components/ai-chat/AIChatWidget";
+import SignInSignUpModal from "@/components/auth/SignInSignUpModal";
 import FloatingBar from "@/components/FloatingBar";
 import Footer from "@/components/Footer";
 import Header from "@/components/Header";
 import { Toaster } from "@/components/ui/toaster";
 import { cn } from "@/lib/utils";
+import axios from "axios";
 import type { Metadata, Viewport } from "next";
 import { Inter } from "next/font/google";
 import "./globals.css";
-import axios from "axios";
-import { apiUrl } from "@/_helpers";
-import SignInSignUpModal from "@/components/auth/SignInSignUpModal";
 
 axios.defaults.baseURL = apiUrl;
 
@@ -61,6 +62,7 @@ export default function RootLayout({
           <Footer />
         </main>
         <FloatingBar />
+        <AIChatWidget />
         <Toaster />
         <SignInSignUpModal />
       </body>

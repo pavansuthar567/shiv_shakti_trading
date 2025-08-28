@@ -11,7 +11,7 @@ import {
 } from "@/components/ui/form";
 import { Input } from "@/components/ui/input";
 import { useToast } from "@/components/ui/use-toast";
-import { getProductSlugByID } from "@/sanity/lib/sanity.query";
+// import { getProductSlugByID } from "@/sanity/lib/sanity.query";
 import { useAuthStore } from "@/store/useAuthStore";
 import { useOrderStore } from "@/store/useOrderStore";
 import { zodResolver } from "@hookform/resolvers/zod";
@@ -79,8 +79,15 @@ export default function SearchInput() {
   async function onSubmit(values: z.infer<typeof formSchema>) {
     const id: number = Number(values.productCode);
     try {
-      const productSlug = await getProductSlugByID(id);
-      router.push(`/product/${productSlug.slug.current}`);
+      // Temporarily disabled Sanity query
+      // const productSlug = await getProductSlugByID(id);
+      // router.push(`/product/${productSlug.slug.current}`);
+
+      // Mock response for now
+      toast({
+        title: "Search temporarily disabled",
+        description: "Product search will be available soon",
+      });
     } catch (error) {
       toast({
         variant: "destructive",
@@ -89,10 +96,11 @@ export default function SearchInput() {
     }
     form.reset();
   }
+
   return (
     <Form {...form}>
       <form onSubmit={form.handleSubmit(onSubmit)}>
-        {/* <FormField
+        <FormField
           control={form.control}
           name="productCode"
           render={({ field }) => (
@@ -106,10 +114,8 @@ export default function SearchInput() {
                   />
                   <Button
                     disabled={form.formState.isSubmitting}
-                    size={"icon"}
                     type="submit"
-                    variant={"outline"}
-                    className="absolute right-1 scale-75 border-0 p-0"
+                    className="absolute right-1 h-10 w-10 scale-75 border border-0 border-input bg-background p-0 hover:bg-accent hover:text-accent-foreground"
                   >
                     <SearchIcon size={15} />
                     <span className="sr-only">search</span>
@@ -119,7 +125,7 @@ export default function SearchInput() {
               <FormMessage className="absolute -bottom-6" />
             </FormItem>
           )}
-        /> */}
+        />
       </form>
     </Form>
   );

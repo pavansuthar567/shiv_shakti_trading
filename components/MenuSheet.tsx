@@ -1,3 +1,5 @@
+"use client";
+
 import {
   Sheet,
   SheetClose,
@@ -9,15 +11,11 @@ import {
 import { Category } from "@/lib/types";
 import { MenuIcon } from "lucide-react";
 import Link from "next/link";
+import SignInSignUpModal from "./auth/SignInSignUpModal";
 import SearchInput from "./SearchInput";
 import { Button } from "./ui/button";
-import SignInSignUpModal from "./auth/SignInSignUpModal";
 
-export default async function MenuSheet({
-  categories,
-}: {
-  categories: Category[];
-}) {
+export default function MenuSheet({ categories }: { categories: Category[] }) {
   return (
     <Sheet>
       <SheetTrigger asChild className="block md:hidden">

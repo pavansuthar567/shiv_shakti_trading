@@ -9,18 +9,33 @@ import { useRouter } from "next/navigation";
 import { Button } from "../ui/button";
 import { ToastAction } from "../ui/toast";
 
-export default function AddToCartButton({ product }: { product: Product }) {
+export default function AddToCartButton({ product }: { product: Product & { selectedSize?: string } }) {
   const { toast } = useToast();
   const { addToCart, cart }: Actions & State = useCartStore();
   const router = useRouter();
 
   const cartProduct = {
     ...product,
+    selectedSize: product.selectedSize || product.size,
   };
 
-  const productInCart = cart.find((item) => item.id === product.id);
+  // Check if product with same size is already in cart
+  const productInCart = cart.find(
+    (item) => 
+      item._id === product._id && 
+      item.selectedSize === cartProduct.selectedSize
+  );
 
   const handleAddToCart = () => {
+    if (!cartProduct.selectedSize) {
+      toast({
+        title: "Size Required",
+        description: "Please select a size before adding to cart.",
+        variant: "destructive",
+      });
+      return;
+    }
+
     addToCart(cartProduct);
     toast({
       title: "Item added to cart!",
@@ -34,7 +49,16 @@ export default function AddToCartButton({ product }: { product: Product }) {
   };
 
   const handleBuyNow = () => {
-    if (productInCart?.quantity === undefined) {
+    if (!cartProduct.selectedSize) {
+      toast({
+        title: "Size Required",
+        description: "Please select a size before proceeding.",
+        variant: "destructive",
+      });
+      return;
+    }
+
+    if (!productInCart?.quantity) {
       addToCart(cartProduct);
     }
     router.push("/cart");
@@ -46,16 +70,18 @@ export default function AddToCartButton({ product }: { product: Product }) {
         onClick={handleAddToCart}
         variant="secondary"
         className="relative w-full rounded-full border transition duration-100 active:scale-95"
+        disabled={!cartProduct.selectedSize}
       >
         <PlusIcon className="absolute left-0 ml-4 h-6 w-6" />
-        Add to Cart
+        {cartProduct.selectedSize ? "Add to Cart" : "Select Size First"}
       </Button>
       <Button
         onClick={handleBuyNow}
         variant="default"
         className="relative mt-2 w-full rounded-full border transition duration-100 active:scale-95"
+        disabled={!cartProduct.selectedSize}
       >
-        Buy Now
+        {cartProduct.selectedSize ? "Buy Now" : "Select Size First"}
       </Button>
     </>
   );

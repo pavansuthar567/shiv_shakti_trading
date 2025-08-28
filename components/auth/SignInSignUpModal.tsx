@@ -6,7 +6,7 @@ import SignUpModal from "./SignUpModal";
 // import { fhelper } from "@/_helpers";
 import { useAuthStore } from "@/store/useAuthStore";
 import { useCartStore } from "@/store/useCartStore";
-import { useEffect } from "react";
+import { useEffect, useState } from "react";
 import SignOutModal from "./SignOutModal";
 
 interface SignInModalProps {
@@ -23,6 +23,7 @@ const SignInSignUpModal: React.FC<SignInModalProps> = ({
   onPlaceOrder,
 }) => {
   // const [isLoggedIn, setIsLoggedIn] = useState<boolean | null>(false);
+  const [mounted, setMounted] = useState(false);
 
   const { totalItems } = useCartStore();
   const {
@@ -36,6 +37,10 @@ const SignInSignUpModal: React.FC<SignInModalProps> = ({
   } = useAuthStore();
 
   console.log("isLoggedIn", isLoggedIn);
+
+  useEffect(() => {
+    setMounted(true);
+  }, []);
 
   useEffect(() => {}, [isLoggedIn]);
 
@@ -71,6 +76,11 @@ const SignInSignUpModal: React.FC<SignInModalProps> = ({
   };
 
   console.log("isSignIn", isSignIn);
+
+  // Don't render anything until mounted to prevent hydration mismatch
+  if (!mounted) {
+    return null;
+  }
 
   return (
     <div className="ml-4 pt-3 text-sm">

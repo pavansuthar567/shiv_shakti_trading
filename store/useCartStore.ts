@@ -12,19 +12,25 @@ export type Product = {
   image: any;
   images: any;
   quantity: number;
+  size?: string; // Add size support
+};
+
+export type CartItem = Product & {
+  selectedSize?: string; // Track selected size
 };
 
 export type State = {
-  cart: Product[];
+  cart: CartItem[];
   totalItems: number;
   totalAmount: number;
 };
 
 export type Actions = {
-  addToCart: (Item: Product) => void;
-  removeFromCart: (Item: Product) => void;
-  deleteFromCart: (Item: Product) => void;
+  addToCart: (item: CartItem) => void;
+  removeFromCart: (item: CartItem) => void;
+  deleteFromCart: (item: CartItem) => void;
   clearCart: () => void;
+  updateItemSize: (itemId: string, size: string) => void;
 };
 
 const INITIAL_STATE = {
@@ -39,16 +45,18 @@ export const useCartStore = create(
       cart: INITIAL_STATE.cart,
       totalItems: INITIAL_STATE.totalItems,
       totalAmount: INITIAL_STATE.totalAmount,
-      addToCart: (product: Product) => {
+      addToCart: (product: CartItem) => {
         const cart = get().cart;
+        // Check if product with same size already exists
         const cartItem = cart.find(
-          // (item: Product) => item.slug.current === product.slug.current,
-          (item: Product) => item?._id === product?._id,
+          (item) => 
+            item._id === product._id && 
+            item.selectedSize === product.selectedSize
         );
+        
         if (cartItem) {
           const updatedCart = cart.map((item) =>
-            // item.slug.current === product.slug.current
-            item?._id === product?._id
+            item._id === product._id && item.selectedSize === product.selectedSize
               ? { ...item, quantity: item.quantity + 1 }
               : item,
           );
@@ -67,17 +75,17 @@ export const useCartStore = create(
           }));
         }
       },
-      removeFromCart: (product: Product) => {
+      removeFromCart: (product: CartItem) => {
         const cart = get().cart;
         const cartItem = cart.find(
-          // (item: Product) => item.slug.current === product.slug.current,
-          (item: Product) => item?._id === product?._id,
+          (item) => 
+            item._id === product._id && 
+            item.selectedSize === product.selectedSize
         );
         if (cartItem) {
           const updatedCart = cart
             .map((item) =>
-              // item.slug.current === product.slug.current
-              item?._id === product?._id
+              item._id === product._id && item.selectedSize === product.selectedSize
                 ? { ...item, quantity: item.quantity - 1 }
                 : item,
             )
@@ -89,11 +97,11 @@ export const useCartStore = create(
           }));
         }
       },
-      deleteFromCart: (product: Product) => {
+      deleteFromCart: (product: CartItem) => {
         const cart = get().cart;
         const updatedCart = cart.filter(
-          // (item) => item.slug.current !== product.slug.current,
-          (item) => item?._id !== product?._id,
+          (item) => 
+            !(item._id === product._id && item.selectedSize === product.selectedSize)
         );
         set((state) => ({
           cart: updatedCart,
@@ -106,6 +114,13 @@ export const useCartStore = create(
       },
       clearCart: () => {
         set(INITIAL_STATE);
+      },
+      updateItemSize: (itemId: string, size: string) => {
+        const cart = get().cart;
+        const updatedCart = cart.map((item) =>
+          item._id === itemId ? { ...item, selectedSize: size } : item
+        );
+        set({ cart: updatedCart });
       },
     }),
     {

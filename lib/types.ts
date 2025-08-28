@@ -1,5 +1,11 @@
 import { z } from "zod";
 
+export type ProductSize = {
+  size: string;
+  available: boolean;
+  quantity: number;
+};
+
 export type Product = {
   id: number;
   productId: number;
@@ -12,6 +18,7 @@ export type Product = {
   image: any;
   brand: any;
   size: string;
+  sizes?: ProductSize[]; // Multiple sizes support
   fabric: string;
   color: string;
   weight: string;
@@ -86,3 +93,50 @@ export type Order = {
 };
 
 export type StatusType = "pending" | "processing" | "delivered" | "cancelled";
+
+export type Feedback = {
+  _id: string;
+  productId: string;
+  userId: string;
+  rating: number;
+  comment: string;
+  anonymous: boolean;
+  createdAt: string;
+  updatedAt: string;
+};
+
+export type FeedbackStats = {
+  averageRating: number;
+  totalReviews: number;
+  ratingDistribution: {
+    [key: number]: number;
+  };
+};
+
+export type AIChatMessage = {
+  id: string;
+  role: 'user' | 'assistant';
+  content: string;
+  timestamp: Date;
+};
+
+export type SubscriptionPlan = {
+  _id: string;
+  name: string;
+  duration: 'weekly' | 'monthly';
+  price: number;
+  features: string[];
+  isActive: boolean;
+};
+
+export type UserSubscription = {
+  _id: string;
+  userId: string;
+  planId: string;
+  plan: SubscriptionPlan;
+  status: 'active' | 'expired' | 'cancelled';
+  startDate: string;
+  endDate: string;
+  createdAt: string;
+  updatedAt: string;
+};

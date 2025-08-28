@@ -1,5 +1,4 @@
-import { urlForImage } from "@/sanity/lib/image";
-import { Product } from "@/store/useCartStore";
+import { CartItem } from "@/store/useCartStore";
 import { DeleteIcon, MinusIcon, PlusIcon } from "lucide-react";
 import Image from "next/image";
 import Link from "next/link";
@@ -12,10 +11,10 @@ export default function CartProductCard({
   removeFromCart,
   deleteFromCart,
 }: {
-  addToCart: (Item: Product) => void;
-  removeFromCart: (Item: Product) => void;
-  deleteFromCart: (Item: Product) => void;
-} & { product: Product }) {
+  addToCart: (item: CartItem) => void;
+  removeFromCart: (item: CartItem) => void;
+  deleteFromCart: (item: CartItem) => void;
+} & { product: CartItem }) {
   return (
     <Card className="mb-2 flex flex-row p-1">
       <CardContent className="flex w-full flex-row p-0">
@@ -41,6 +40,12 @@ export default function CartProductCard({
             <div className="mt-1 text-sm text-primary opacity-95">
               ₹{product.price}
             </div>
+            {/* Display selected size */}
+            {product.selectedSize && (
+              <div className="mt-1 text-xs text-gray-600">
+                Size: {product.selectedSize}
+              </div>
+            )}
           </div>
           <div className="flex w-min flex-row gap-1 rounded-lg border p-1">
             <Button
