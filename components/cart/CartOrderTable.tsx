@@ -8,7 +8,7 @@ import {
   TableHeader,
   TableRow,
 } from "@/components/ui/table";
-import { Product, useCartStore } from "@/store/useCartStore";
+import { CartItem, useCartStore } from "@/store/useCartStore";
 
 export default function CartOrderTable() {
   const { cart, removeFromCart, addToCart, deleteFromCart, totalAmount } =
@@ -19,7 +19,7 @@ export default function CartOrderTable() {
       {cart.length > 0 ? (
         <div>
           <div className="grid grid-cols-1 gap-2 py-2 md:grid-cols-2 lg:grid-cols-4">
-            {cart.map((product: Product, index: number) => (
+            {cart.map((product: CartItem, index: number) => (
               <CartProductCard
                 key={index}
                 product={product}
@@ -35,15 +35,30 @@ export default function CartOrderTable() {
               <TableHeader>
                 <TableRow>
                   <TableHead>DESCRIPTION</TableHead>
+                  <TableHead>SIZE</TableHead>
+                  {/* <TableHead>FLAVOR</TableHead> */}
                   <TableHead className="text-right">UNIT PRICE</TableHead>
                   <TableHead className="text-right">QTY</TableHead>
                   <TableHead className="text-right">Amount</TableHead>
                 </TableRow>
               </TableHeader>
               <TableBody>
-                {cart.map((product: Product, index: number) => (
+                {cart.map((product: CartItem, index: number) => (
                   <TableRow key={index}>
-                    <TableCell>{product.name}</TableCell>
+                    <TableCell>
+                      <a
+                        href={`/product/${product?._id}`}
+                        className="text-blue-600 hover:underline"
+                        target="_blank"
+                        rel="noopener noreferrer"
+                      >
+                        {product?.name}
+                      </a>
+                    </TableCell>
+                    <TableCell>
+                      {product.selectedSize || product.size || "N/A"}
+                    </TableCell>
+                    {/* <TableCell>{product.flavor || "N/A"}</TableCell> */}
                     <TableCell align="right">₹{product.price}</TableCell>
                     <TableCell align="right">{product.quantity}</TableCell>
                     <TableCell align="right">
@@ -52,17 +67,17 @@ export default function CartOrderTable() {
                   </TableRow>
                 ))}
                 <TableRow>
-                  <TableCell colSpan={3}>Subtotal</TableCell>
+                  <TableCell colSpan={4}>Subtotal</TableCell>
                   <TableCell align="right">₹{totalAmount}</TableCell>
                 </TableRow>
                 <TableRow>
-                  <TableCell colSpan={3}>Shipping Cost</TableCell>
+                  <TableCell colSpan={4}>Shipping Cost</TableCell>
                   <TableCell align="right">FREE</TableCell>
                 </TableRow>
               </TableBody>
               <TableFooter>
                 <TableRow className="text-primary">
-                  <TableCell colSpan={3}>Total</TableCell>
+                  <TableCell colSpan={4}>Total</TableCell>
                   <TableCell align="right">₹{totalAmount}</TableCell>
                 </TableRow>
               </TableFooter>

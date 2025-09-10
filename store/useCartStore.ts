@@ -13,10 +13,12 @@ export type Product = {
   images: any;
   quantity: number;
   size?: string; // Add size support
+  flavor?: string; // Add flavor support
 };
 
 export type CartItem = Product & {
   selectedSize?: string; // Track selected size
+  flavor?: string; // Track selected flavor
 };
 
 export type State = {
@@ -31,6 +33,7 @@ export type Actions = {
   deleteFromCart: (item: CartItem) => void;
   clearCart: () => void;
   updateItemSize: (itemId: string, size: string) => void;
+  updateItemFlavor: (itemId: string, flavor: string) => void;
 };
 
 const INITIAL_STATE = {
@@ -49,14 +52,15 @@ export const useCartStore = create(
         const cart = get().cart;
         // Check if product with same size already exists
         const cartItem = cart.find(
-          (item) => 
-            item._id === product._id && 
-            item.selectedSize === product.selectedSize
+          (item) =>
+            item._id === product._id &&
+            item.selectedSize === product.selectedSize,
         );
-        
+
         if (cartItem) {
           const updatedCart = cart.map((item) =>
-            item._id === product._id && item.selectedSize === product.selectedSize
+            item._id === product._id &&
+            item.selectedSize === product.selectedSize
               ? { ...item, quantity: item.quantity + 1 }
               : item,
           );
@@ -78,14 +82,15 @@ export const useCartStore = create(
       removeFromCart: (product: CartItem) => {
         const cart = get().cart;
         const cartItem = cart.find(
-          (item) => 
-            item._id === product._id && 
-            item.selectedSize === product.selectedSize
+          (item) =>
+            item._id === product._id &&
+            item.selectedSize === product.selectedSize,
         );
         if (cartItem) {
           const updatedCart = cart
             .map((item) =>
-              item._id === product._id && item.selectedSize === product.selectedSize
+              item._id === product._id &&
+              item.selectedSize === product.selectedSize
                 ? { ...item, quantity: item.quantity - 1 }
                 : item,
             )
@@ -100,8 +105,12 @@ export const useCartStore = create(
       deleteFromCart: (product: CartItem) => {
         const cart = get().cart;
         const updatedCart = cart.filter(
-          (item) => 
-            !(item._id === product._id && item.selectedSize === product.selectedSize)
+          // (item) => item.slug.current !== product.slug.current,
+          (item) =>
+            !(
+              item._id === product._id &&
+              item.selectedSize === product.selectedSize
+            ),
         );
         set((state) => ({
           cart: updatedCart,
@@ -118,7 +127,14 @@ export const useCartStore = create(
       updateItemSize: (itemId: string, size: string) => {
         const cart = get().cart;
         const updatedCart = cart.map((item) =>
-          item._id === itemId ? { ...item, selectedSize: size } : item
+          item._id === itemId ? { ...item, selectedSize: size } : item,
+        );
+        set({ cart: updatedCart });
+      },
+      updateItemFlavor: (itemId: string, flavor: string) => {
+        const cart = get().cart;
+        const updatedCart = cart.map((item) =>
+          item._id === itemId ? { ...item, flavor } : item,
         );
         set({ cart: updatedCart });
       },

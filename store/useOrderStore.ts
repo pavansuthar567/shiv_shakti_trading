@@ -1,4 +1,4 @@
-import { Order, OrderItem } from "@/lib/types";
+import { Order } from "@/lib/types";
 import { create } from "zustand";
 
 export type OrderState = {

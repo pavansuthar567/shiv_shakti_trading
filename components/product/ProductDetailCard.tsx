@@ -2,7 +2,7 @@
 
 import { Table, TableBody, TableCell, TableRow } from "@/components/ui/table";
 import { Product, ProductSize } from "@/lib/types";
-import { useState } from "react";
+import { useEffect, useMemo, useState } from "react";
 import { fabricLabels } from "../../_helpers/constants";
 import AddToCartButton from "../cart/AddToCartButton";
 import FeedbackForm from "../feedback/FeedbackForm";
@@ -10,15 +10,28 @@ import FeedbackList from "../feedback/FeedbackList";
 import ProductCarousel from "./ProductCarousel";
 
 export default function ProductDetailCard({ product }: { product: Product }) {
-  const [selectedSize, setSelectedSize] = useState<string>(product.size || "");
+  const [selectedSize, setSelectedSize] = useState<string>("");
   const [showFeedback, setShowFeedback] = useState(false);
 
-  // Mock user ID - replace with actual auth
-  const userId = "user_123";
+  const availableSizes: ProductSize[] = useMemo(
+    () =>
+      product.sizes && product.sizes.length > 0
+        ? product.sizes
+        : [{ size: product.size, available: true, quantity: 10 }],
+    [product.sizes, product.size],
+  );
 
-  const availableSizes: ProductSize[] = product.sizes || [
-    { size: product.size, available: true, quantity: 10 },
-  ];
+  // Set default size to first available size
+  useEffect(() => {
+    if (availableSizes.length > 0 && !selectedSize) {
+      const firstAvailableSize = availableSizes.find((size) => size.available);
+      if (firstAvailableSize) {
+        setSelectedSize(firstAvailableSize.size);
+      } else if (availableSizes.length > 0) {
+        setSelectedSize(availableSizes[0].size);
+      }
+    }
+  }, [availableSizes, selectedSize]);
 
   const handleSizeSelect = (size: string) => {
     setSelectedSize(size);
@@ -80,7 +93,7 @@ export default function ProductDetailCard({ product }: { product: Product }) {
               </TableRow>
               <TableRow>
                 <TableCell>Size:</TableCell>
-                <TableCell>{selectedSize}</TableCell>
+                <TableCell>{selectedSize || "Select Size"}</TableCell>
               </TableRow>
               <TableRow>
                 <TableCell>Fabric:</TableCell>
@@ -127,13 +140,12 @@ export default function ProductDetailCard({ product }: { product: Product }) {
           <div className="mb-8">
             <FeedbackForm
               productId={product._id}
-              userId={userId}
               onSubmit={() => setShowFeedback(false)}
             />
           </div>
         )}
 
-        <FeedbackList productId={product._id} userId={userId} />
+        <FeedbackList productId={product._id} />
       </section>
     </div>
   );

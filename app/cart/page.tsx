@@ -87,8 +87,11 @@ export default function CartPage() {
       return {
         product: x?._id,
         quantity: x?.quantity,
+        finalQuantity: x?.quantity, // Add finalQuantity field
         amount: x?.price * x?.quantity,
         price: x?.price,
+        size: x?.selectedSize || x?.size, // Map selectedSize to size
+        flavor: x?.flavor || "NA", // Add flavor field (default to empty string)
       };
     });
 

@@ -75,7 +75,10 @@ export const invoiceSchema = checkoutFormSchema.extend({
 
 export type OrderItem = {
   product: Product;
+  size: string; // Changed from selectedSize to size to match the interface
+  flavor: string; // Add flavor field for juice
   quantity: number;
+  finalQuantity: number; // Add finalQuantity field
   amount: number;
   price: number;
   _id: string;
@@ -115,7 +118,7 @@ export type FeedbackStats = {
 
 export type AIChatMessage = {
   id: string;
-  role: 'user' | 'assistant';
+  role: "user" | "assistant";
   content: string;
   timestamp: Date;
 };
@@ -123,7 +126,7 @@ export type AIChatMessage = {
 export type SubscriptionPlan = {
   _id: string;
   name: string;
-  duration: 'weekly' | 'monthly';
+  duration: "weekly" | "monthly";
   price: number;
   features: string[];
   isActive: boolean;
@@ -134,7 +137,7 @@ export type UserSubscription = {
   userId: string;
   planId: string;
   plan: SubscriptionPlan;
-  status: 'active' | 'expired' | 'cancelled';
+  status: "active" | "expired" | "cancelled";
   startDate: string;
   endDate: string;
   createdAt: string;

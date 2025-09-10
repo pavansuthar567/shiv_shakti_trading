@@ -1,12 +1,14 @@
 import axios from "axios";
-
-const API_BASE_URL = process.env.NEXT_PUBLIC_BASE_URL || "http://localhost:3000";
+import { apiUrl } from "../../_helpers";
 
 export const subscriptionService = {
   // Create subscription
   createSubscription: async (subscriptionData) => {
     try {
-      const response = await axios.post(`${API_BASE_URL}/api/subscription`, subscriptionData);
+      const response = await axios.post(
+        `${apiUrl}/subscription`,
+        subscriptionData,
+      );
       return response.data;
     } catch (error) {
       throw error;
@@ -16,7 +18,7 @@ export const subscriptionService = {
   // Get subscription plans
   getPlans: async () => {
     try {
-      const response = await axios.get(`${API_BASE_URL}/api/subscription?type=plans`);
+      const response = await axios.get(`${apiUrl}/subscription?type=plans`);
       return response.data;
     } catch (error) {
       throw error;
@@ -26,7 +28,7 @@ export const subscriptionService = {
   // Get active subscriptions
   getActiveSubscriptions: async () => {
     try {
-      const response = await axios.get(`${API_BASE_URL}/api/subscription?type=active`);
+      const response = await axios.get(`${apiUrl}/subscription?type=active`);
       return response.data;
     } catch (error) {
       throw error;
@@ -36,7 +38,7 @@ export const subscriptionService = {
   // Get user subscriptions
   getUserSubscriptions: async () => {
     try {
-      const response = await axios.get(`${API_BASE_URL}/api/subscription`);
+      const response = await axios.get(`${apiUrl}/subscription`);
       return response.data;
     } catch (error) {
       throw error;
@@ -46,7 +48,9 @@ export const subscriptionService = {
   // Cancel subscription
   cancelSubscription: async (subscriptionId) => {
     try {
-      const response = await axios.put(`${API_BASE_URL}/api/subscription/${subscriptionId}/cancel`);
+      const response = await axios.put(
+        `${apiUrl}/subscription/${subscriptionId}/cancel`,
+      );
       return response.data;
     } catch (error) {
       throw error;
@@ -56,7 +60,9 @@ export const subscriptionService = {
   // Renew subscription
   renewSubscription: async (subscriptionId) => {
     try {
-      const response = await axios.put(`${API_BASE_URL}/api/subscription/${subscriptionId}/renew`);
+      const response = await axios.put(
+        `${apiUrl}/subscription/${subscriptionId}/renew`,
+      );
       return response.data;
     } catch (error) {
       throw error;

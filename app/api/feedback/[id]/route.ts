@@ -1,69 +1,80 @@
+import { feedbackService } from "@/app/services/feedback";
 import { NextRequest, NextResponse } from "next/server";
 
-// Mock data - replace with actual database calls
-let feedbackData: any[] = [];
-
 export async function PUT(
-  request: NextRequest,
-  { params }: { params: { id: string } }
-) {
+  req: NextRequest,
+  { params }: { params: { id: string } },
+): Promise<NextResponse> {
   try {
-    const { id } = params;
-    const body = await request.json();
-    const { rating, comment, anonymous } = body;
+    // Get the cookies from the request
+    const cookies = req.cookies;
+    const token = cookies.get("token"); // Get the token from the cookies
 
-    const feedbackIndex = feedbackData.findIndex(f => f._id === id);
-    if (feedbackIndex === -1) {
+    if (!token?.value) {
       return NextResponse.json(
-        { message: "Feedback not found" },
-        { status: 404 }
+        { message: "Token expired. Please sign in again." },
+        { status: 401 },
       );
     }
 
-    feedbackData[feedbackIndex] = {
-      ...feedbackData[feedbackIndex],
-      rating: rating || feedbackData[feedbackIndex].rating,
-      comment: comment || feedbackData[feedbackIndex].comment,
-      anonymous: anonymous !== undefined ? anonymous : feedbackData[feedbackIndex].anonymous,
-      updatedAt: new Date().toISOString(),
-    };
-
-    return NextResponse.json({
-      message: "Feedback updated successfully",
-      feedback: feedbackData[feedbackIndex],
-    });
-  } catch (error) {
-    return NextResponse.json(
-      { message: "Internal server error" },
-      { status: 500 }
+    const body = await req.json();
+    const updated = await feedbackService.updateFeedback(
+      params.id,
+      body,
+      token.value,
     );
+
+    if (updated?.error) {
+      return NextResponse.json(
+        { error: updated.error },
+        { status: updated.status || 400 },
+      );
+    }
+
+    return NextResponse.json(
+      { message: "Feedback updated successfully", data: updated },
+      { status: 200 },
+    );
+  } catch (err) {
+    const message = err instanceof Error ? err.message : "Server error";
+    return NextResponse.json({ error: message }, { status: 500 });
   }
 }
 
 export async function DELETE(
-  request: NextRequest,
-  { params }: { params: { id: string } }
-) {
+  _: NextRequest,
+  { params }: { params: { id: string } },
+): Promise<NextResponse> {
   try {
-    const { id } = params;
-    const feedbackIndex = feedbackData.findIndex(f => f._id === id);
-    
-    if (feedbackIndex === -1) {
+    // Get the cookies from the request
+    const cookies = _.cookies;
+    const token = cookies.get("token"); // Get the token from the cookies
+
+    if (!token?.value) {
       return NextResponse.json(
-        { message: "Feedback not found" },
-        { status: 404 }
+        { message: "Token expired. Please sign in again." },
+        { status: 401 },
       );
     }
 
-    feedbackData.splice(feedbackIndex, 1);
-
-    return NextResponse.json({
-      message: "Feedback deleted successfully",
-    });
-  } catch (error) {
-    return NextResponse.json(
-      { message: "Internal server error" },
-      { status: 500 }
+    const deleted = await feedbackService.deleteFeedback(
+      params.id,
+      token.value,
     );
+
+    if (deleted?.error) {
+      return NextResponse.json(
+        { error: deleted.error },
+        { status: deleted.status || 400 },
+      );
+    }
+
+    return NextResponse.json(
+      { message: "Feedback Deleted Successfully", deleted },
+      { status: 200 },
+    );
+  } catch (err) {
+    const message = err instanceof Error ? err.message : "Server error";
+    return NextResponse.json({ error: message }, { status: 500 });
   }
 }

@@ -1,67 +1,92 @@
+import { feedbackService } from "@/app/services/feedback";
 import { NextRequest, NextResponse } from "next/server";
 
-// Mock data - replace with actual database calls
-let feedbackData: any[] = [];
-let feedbackId = 1;
-
-export async function POST(request: NextRequest) {
+export async function POST(request: NextRequest): Promise<NextResponse> {
   try {
-    const body = await request.json();
-    const { productId, userId, rating, comment, anonymous } = body;
+    // Get the cookies from the request
+    const cookies = request.cookies;
+    const token = cookies.get("token"); // Get the token from the cookies
 
-    if (!productId || !userId || !rating || rating < 1 || rating > 5) {
+    if (!token?.value) {
       return NextResponse.json(
-        { message: "Invalid feedback data" },
-        { status: 400 }
+        { message: "Token expired. Please sign in again." },
+        { status: 401 },
       );
     }
 
-    const newFeedback = {
-      _id: `feedback_${feedbackId++}`,
-      productId,
-      userId,
-      rating,
-      comment,
-      anonymous,
-      createdAt: new Date().toISOString(),
-      updatedAt: new Date().toISOString(),
-    };
+    const body = await request.json();
+    const { productId, rating, comment, anonymous } = body;
 
-    feedbackData.push(newFeedback);
+    console.log("body", body);
+
+    if (!productId || !rating || rating < 1 || rating > 5) {
+      return NextResponse.json(
+        { message: "Invalid feedback data" },
+        { status: 400 },
+      );
+    }
+
+    const result = await feedbackService.submitFeedback(body, token.value);
+
+    if (result?.error) {
+      return NextResponse.json(
+        { message: result.error },
+        { status: result.status || 400 },
+      );
+    }
 
     return NextResponse.json(
-      { message: "Feedback submitted successfully", feedback: newFeedback },
-      { status: 201 }
+      { message: "Feedback submitted successfully", feedback: result },
+      { status: 201 },
     );
   } catch (error) {
-    return NextResponse.json(
-      { message: "Internal server error" },
-      { status: 500 }
-    );
+    const message =
+      error instanceof Error ? error.message : "Internal server error";
+    return NextResponse.json({ message }, { status: 500 });
   }
 }
 
-export async function GET(request: NextRequest) {
+export async function GET(request: NextRequest): Promise<NextResponse> {
   try {
     const { searchParams } = new URL(request.url);
     const productId = searchParams.get("productId");
     const userId = searchParams.get("userId");
 
+    let result;
+
     if (productId) {
-      const productFeedback = feedbackData.filter(f => f.productId === productId);
-      return NextResponse.json({ feedback: productFeedback });
+      result = await feedbackService.getProductFeedback(productId);
+    } else if (userId) {
+      // For user feedback, we need authentication token
+      const cookies = request.cookies;
+      const token = cookies.get("token");
+
+      if (!token?.value) {
+        return NextResponse.json(
+          { message: "Token expired. Please sign in again." },
+          { status: 401 },
+        );
+      }
+
+      result = await feedbackService.getUserFeedback(token.value);
+    } else {
+      return NextResponse.json(
+        { message: "productId or userId parameter is required" },
+        { status: 400 },
+      );
     }
 
-    if (userId) {
-      const userFeedback = feedbackData.filter(f => f.userId === userId);
-      return NextResponse.json({ feedback: userFeedback });
+    if (result?.error) {
+      return NextResponse.json(
+        { message: result.error },
+        { status: result.status || 400 },
+      );
     }
 
-    return NextResponse.json({ feedback: feedbackData });
+    return NextResponse.json({ feedback: result });
   } catch (error) {
-    return NextResponse.json(
-      { message: "Internal server error" },
-      { status: 500 }
-    );
+    const message =
+      error instanceof Error ? error.message : "Internal server error";
+    return NextResponse.json({ message }, { status: 500 });
   }
 }

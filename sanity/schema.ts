@@ -46,6 +46,12 @@ export const schema: { types: SchemaTypeDefinition[] } = {
           type: "string",
         },
         {
+          name: "flavor",
+          title: "Flavor",
+          type: "string",
+          description: "Flavor for juice products",
+        },
+        {
           name: "price",
           title: "Price",
           type: "number",

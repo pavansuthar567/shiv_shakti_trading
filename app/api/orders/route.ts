@@ -1,5 +1,5 @@
-import { NextRequest, NextResponse } from "next/server";
 import { createOrder, getOrders } from "@/app/services/order";
+import { NextRequest, NextResponse } from "next/server";
 
 export const GET = async (_: NextRequest) => {
   try {

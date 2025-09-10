@@ -4,6 +4,7 @@ import CartSheet from "./cart/CartSheet";
 import MenuSheet from "./MenuSheet";
 import Navbar from "./Navbar";
 import SearchInput from "./SearchInput";
+import ClientOnly from "./ui/client-only";
 
 export default async function Header() {
   let categories: any = [];
@@ -38,9 +39,65 @@ export default async function Header() {
         <Navbar categories={categories} />
         <div className="ml-0 flex flex-row gap-2 md:ml-auto">
           <div suppressHydrationWarning className="hidden md:block">
-            <SearchInput />
+            <ClientOnly
+              fallback={
+                <div className="relative flex flex-row">
+                  <input
+                    placeholder="Search by Code"
+                    disabled={true}
+                    className="flex h-10 w-full rounded-md border border-input bg-background px-3 py-2 text-sm ring-offset-background file:border-0 file:bg-transparent file:text-sm file:font-medium placeholder:text-muted-foreground focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-ring focus-visible:ring-offset-2 disabled:cursor-not-allowed disabled:opacity-50"
+                  />
+                  <button
+                    disabled={true}
+                    type="submit"
+                    className="absolute right-1 h-10 w-10 scale-75 border border-0 border-input bg-background p-0 hover:bg-accent hover:text-accent-foreground"
+                  >
+                    <svg
+                      width="15"
+                      height="15"
+                      viewBox="0 0 24 24"
+                      fill="none"
+                      stroke="currentColor"
+                      strokeWidth="2"
+                      strokeLinecap="round"
+                      strokeLinejoin="round"
+                    >
+                      <circle cx="11" cy="11" r="8"></circle>
+                      <path d="m21 21-4.35-4.35"></path>
+                    </svg>
+                    <span className="sr-only">search</span>
+                  </button>
+                </div>
+              }
+            >
+              <SearchInput />
+            </ClientOnly>
           </div>
-          <CartSheet />
+          <ClientOnly
+            fallback={
+              <div className="flex items-center">
+                <button className="relative inline-flex h-10 w-10 items-center justify-center whitespace-nowrap rounded-md border border-input bg-background px-3 py-2 text-sm font-medium ring-offset-background transition-colors hover:bg-accent hover:text-accent-foreground focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-ring focus-visible:ring-offset-2 disabled:pointer-events-none disabled:opacity-50">
+                  <svg
+                    width="15"
+                    height="15"
+                    viewBox="0 0 24 24"
+                    fill="none"
+                    stroke="currentColor"
+                    strokeWidth="2"
+                    strokeLinecap="round"
+                    strokeLinejoin="round"
+                  >
+                    <path d="M6 2L3 6v14a2 2 0 0 0 2 2h14a2 2 0 0 0 2-2V6l-3-4z"></path>
+                    <line x1="3" x2="21" y1="6" y2="6"></line>
+                    <path d="M16 10a4 4 0 0 1-8 0"></path>
+                  </svg>
+                  <span className="sr-only">Cart</span>
+                </button>
+              </div>
+            }
+          >
+            <CartSheet />
+          </ClientOnly>
         </div>
       </nav>
     </header>

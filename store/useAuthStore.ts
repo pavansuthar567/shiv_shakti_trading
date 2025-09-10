@@ -1,5 +1,5 @@
 import { create } from "zustand";
-// import { persist } from "zustand/middleware";
+import { persist } from "zustand/middleware";
 
 type AuthState = {
   isSignUp: boolean;
@@ -15,16 +15,25 @@ type AuthActions = {
   setIsSignedIn: (value: boolean | null) => void;
 };
 
-export const useAuthStore = create<AuthState & AuthActions>((set) => ({
-  isSignUp: false,
-  isSignIn: false,
-  isSignOut: false,
-  isSignedIn: null,
-  setIsSignUp: (value) => set({ isSignUp: value }),
-  setIsSignIn: (value) => set({ isSignIn: value }),
-  setIsSignOut: (value) => set({ isSignOut: value }),
-  setIsSignedIn: (value) => set({ isSignedIn: value }),
-}));
+export const useAuthStore = create<AuthState & AuthActions>()(
+  persist(
+    (set) => ({
+      isSignUp: false,
+      isSignIn: false,
+      isSignOut: false,
+      isSignedIn: null,
+      setIsSignUp: (value) => set({ isSignUp: value }),
+      setIsSignIn: (value) => set({ isSignIn: value }),
+      setIsSignOut: (value) => set({ isSignOut: value }),
+      setIsSignedIn: (value) => set({ isSignedIn: value }),
+    }),
+    {
+      name: "auth-store",
+      // Only persist on client side
+      skipHydration: true,
+    },
+  ),
+);
 
 // export const useAuthStore = create(
 //   persist

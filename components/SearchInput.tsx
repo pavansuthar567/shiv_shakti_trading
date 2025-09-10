@@ -12,6 +12,7 @@ import {
 import { Input } from "@/components/ui/input";
 import { useToast } from "@/components/ui/use-toast";
 // import { getProductSlugByID } from "@/sanity/lib/sanity.query";
+import { useLocalStorage } from "@/lib/hooks/useIsMounted";
 import { useAuthStore } from "@/store/useAuthStore";
 import { useOrderStore } from "@/store/useOrderStore";
 import { zodResolver } from "@hookform/resolvers/zod";
@@ -28,6 +29,14 @@ const formSchema = z.object({
   }),
 });
 
+type UserDetails = {
+  token?: string;
+  user?: {
+    name?: string;
+    email?: string;
+  };
+} | null;
+
 export default function SearchInput() {
   const router = useRouter();
   const { toast } = useToast();
@@ -36,32 +45,40 @@ export default function SearchInput() {
   const { setIsSignedIn, setIsSignOut, setIsSignIn, setIsSignUp } =
     useAuthStore();
 
+  const [userDetails, setUserDetails, mounted] = useLocalStorage<UserDetails>(
+    "userDetails",
+    null,
+  );
+
   const form = useForm<z.infer<typeof formSchema>>({
     resolver: zodResolver(formSchema),
   });
 
   useEffect(() => {
+    if (!mounted) return; // Don't run during SSR or initial render
+
     const isUserLoggedIn = fhelper.isUserLoggedIn();
-    const user = localStorage.getItem("userDetails");
     setIsSignedIn(isUserLoggedIn);
 
-    if (user) {
-      const token = user ? JSON.parse(user)?.token : null;
-
+    if (userDetails) {
+      const token = userDetails?.token;
       if (token) {
         axios.defaults.headers.common["Authorization"] = `Bearer ${token}`;
       }
     }
-  }, [setIsSignedIn]);
+  }, [setIsSignedIn, userDetails, mounted]);
 
   useEffect(() => {
+    if (!mounted) return; // Don't run during SSR or initial render
+
     axios.interceptors.response.use(
       (response) => response,
       (error) => {
         console.log("error.response?.status", error.response?.status);
         if (error.response?.status === 401) {
-          localStorage.setItem("isLoggedIn", "false");
-          localStorage.removeItem("userDetails");
+          // localStorage.setItem("isLoggedIn", "false");
+          // localStorage.removeItem("userDetails");
+          setUserDetails(null);
           setIsSignOut(false);
           setIsSignIn(false);
           setIsSignUp(false);
@@ -74,7 +91,7 @@ export default function SearchInput() {
       },
     );
     // eslint-disable-next-line react-hooks/exhaustive-deps
-  }, []);
+  }, [mounted]);
 
   async function onSubmit(values: z.infer<typeof formSchema>) {
     const id: number = Number(values.productCode);

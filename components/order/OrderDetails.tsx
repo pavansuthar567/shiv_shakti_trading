@@ -1,4 +1,5 @@
 import { statusColors, Statuses, statuses } from "@/_helpers/constants";
+import { updateOrder } from "@/app/services/order";
 import {
   Table,
   TableBody,
@@ -9,15 +10,14 @@ import {
   TableRow,
 } from "@/components/ui/table";
 import { OrderItem } from "@/lib/types";
-import { useOrderStore } from "@/store/useOrderStore";
-import { Button } from "../ui/button";
-import { updateOrder } from "@/app/services/order";
-import { useCallback, useEffect } from "react";
-import { useToast } from "../ui/use-toast";
-import { useRouter } from "next/navigation";
 import { useAuthStore } from "@/store/useAuthStore";
+import { useOrderStore } from "@/store/useOrderStore";
 import * as Dialog from "@radix-ui/react-dialog";
 import { X } from "lucide-react";
+import { useRouter } from "next/navigation";
+import { useCallback, useEffect } from "react";
+import { Button } from "../ui/button";
+import { useToast } from "../ui/use-toast";
 
 type Props = {
   loadData: () => void;
@@ -112,6 +112,8 @@ export default function OrderDetails({ loadData }: Props) {
           <TableHeader>
             <TableRow>
               <TableHead>DESCRIPTION</TableHead>
+              <TableHead>SIZE</TableHead>
+              {/* <TableHead>FLAVOR</TableHead> */}
               <TableHead className="text-right">UNIT PRICE</TableHead>
               <TableHead className="text-right">QTY</TableHead>
               <TableHead className="text-right">Amount</TableHead>
@@ -120,7 +122,20 @@ export default function OrderDetails({ loadData }: Props) {
           <TableBody>
             {items.map((selectedOrder: OrderItem, index: number) => (
               <TableRow key={index}>
-                <TableCell>{selectedOrder?.product?.name}</TableCell>
+                <TableCell>
+                  <a
+                    href={`/product/${selectedOrder?.product?._id}`}
+                    className="text-blue-600 hover:underline"
+                    target="_blank"
+                    rel="noopener noreferrer"
+                  >
+                    {selectedOrder?.product?.name}
+                  </a>
+                </TableCell>
+                <TableCell>
+                  {selectedOrder?.size || selectedOrder?.product?.size || "N/A"}
+                </TableCell>
+                {/* <TableCell>{selectedOrder?.flavor || "N/A"}</TableCell> */}
                 <TableCell align="right">₹{selectedOrder?.price}</TableCell>
                 <TableCell align="right">{selectedOrder?.quantity}</TableCell>
                 <TableCell align="right">
@@ -129,17 +144,17 @@ export default function OrderDetails({ loadData }: Props) {
               </TableRow>
             ))}
             <TableRow>
-              <TableCell colSpan={3}>Subtotal</TableCell>
+              <TableCell colSpan={4}>Subtotal</TableCell>
               <TableCell align="right">₹{totalAmount}</TableCell>
             </TableRow>
             <TableRow>
-              <TableCell colSpan={3}>Shipping Cost</TableCell>
+              <TableCell colSpan={4}>Shipping Cost</TableCell>
               <TableCell align="right">FREE</TableCell>
             </TableRow>
           </TableBody>
           <TableFooter>
             <TableRow className="text-primary">
-              <TableCell colSpan={3}>Total</TableCell>
+              <TableCell colSpan={4}>Total</TableCell>
               <TableCell align="right">₹{totalAmount}</TableCell>
             </TableRow>
           </TableFooter>
